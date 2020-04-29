@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>前端开发基础教学课程</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="./css/bootstarp/bootstrap.css">
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">前端基础学习课件</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a>首页基础知识</a></li>
+                <li><a href="components/css/index.html">深入html+css</a></li>
+                <li><a href="components/javascript/index.html">js深入</a></li>
+                <li><a href="components/structure/index.html">前端数据结构</a></li>
+                <li><a href="components/es/index.html">es6基础</a></li>
+                <li><a href="components/echarts/index.html">echarts测试</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h2>前端的基础知识和概念</h2>
+        <p>前端开发是创建Web页面或app等前端界面呈现给用户的过程，通过HTML， <br>
+            CSS及JavaScript以及衍生出来的各种技术、框架、解决方案，来实现互联网产品的用户界面交互</p>
+        <p>
+            页面案例：<a>单网页</a> <br>
+            手机端案例：<a>手机app页面</a>
+        </p>
+        <p>
+            学习方向：(html，css，javasript) => (html5+sass/less+js/jq+gulp/webpack架构开发) => (vue.js+scss+webpack+vuex) =>
+            (react + scss + webpack + redux + reactRouter + es6)
+        </p>
+        <p>
+            总的来说，学习的路线和心路历程如下：
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">点击查看</button>
+        </p>
+        <p>
+            推荐使用编辑器：webstorm、vscode等
+        </p>
+        <p>
+            软件编辑器的话，vscode比较容易上手，适合初学者，webstorm功能非常全面，太过强大，反而不适合初学者去模式；不过我当初不懂这些，
+            尼玛直接用的就是webstorm，搞得我配置个编辑器花了不少时间，好处就是，现在能比较熟系的摸透他
+        </p>
+        <p>
+            webstorm编辑器安装：链接：<a href="https://pan.baidu.com/s/1UGw5ZPvwT6zjn-0tkzLT0Q">https://pan.baidu.com/s/1UGw5ZPvwT6zjn-0tkzLT0Q</a>  提取码：2kkj
+        </p>
+    </div>
+
+    <div>
+        <div class="page-header">
+            <h3>html学习解说</h3>
+        </div>
+        <div class="well">
+            <p>这里基本的html只是我就不做详细描述了，页面主要记录的是html的一些重点知识，以及我也要经常回来温习的一些用法</p>
+            <p>至于基础知识的学习，有以下三个选择：</p>
+            <ol>
+                <li>html作为一种为超文本标记语言，作为.html文件结尾的，<a
+                        href="https://www.w3school.com.cn/tags/tag_textarea.asp" target="_blank">详细学习官方文档</a></li>
+                <br>
+                <li>
+                    <p>去慕课网快速学习基础，<a href="https://www.imooc.com/" target="_blank">https://www.imooc.com/</a>，账号密码：18370892238</p>
+                    <p>
+                        不过现在比较坑的地方就是，我已经看得免费的视频，现在很多都不免费了，而且很多以前免费的学习网站，我现在都没看到了。。。，所以，你可以试试在里面找找看还有免费的不，或者就
+                        一点点去看我下面的课件，里面都是源码，是我根据视频一点点写出来的，非常详细，但是缺点就是，没有视频解说...；
+                        或者你也可以直接去看html的文档，但是文档的解释会非常详细，对于初学者来说，很多用不上的也会详细的讲解一波
+                    </p>
+                </li>
+                <br>
+                <li>
+                    <p>
+                        html文档：<a href="https://www.runoob.com/html/html-tutorial.html" target="_blank">https://www.runoob.com/html/html-tutorial.html</a>
+                        css文档：<a href="https://www.runoob.com/css/css-tutorial.html" target="_blank">https://www.runoob.com/css/css-tutorial.html</a>
+                        js文档：<a href="https://www.w3school.com.cn/js/index.asp" target="_blank">https://www.w3school.com.cn/js/index.asp</a>
+                    </p>
+                </li>
+                <br>
+                <li>
+                    <a href="https://www.bilibili.com/video/BV1XJ411X7Ud?from=search&seid=7351148679896335268" target="_blank">找到的html+css视频</a>
+                </li>
+                <br>
+                <!--                <li>如果你的已经学习了，可以去看看<a href="https://www.liaoxuefeng.com/wiki/1022910821149312">这个</a></li>-->
+                <li><a href="">出门左拐</a> ，有我以前一步步的自学详细学习html的资料，以及我以前踩过的无数的坑</li>
+                <br>
+                <li>
+                    <p>
+                        下面的都是一些知识点
+                    </p>
+                </li>
+                <br>
+                <li>
+                    备注：这整个课件其实也是一个小型项目，里面的结构搭建以及设置在你学完基础之后，看看这个课件的底层代码以及实现代码
+                    里面很多变成的结构相信对你来说也是非常有提高的
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <!--科普知识-->
+    <div>
+        <div class="page-header">
+            <h3>前端项目逇启动</h3>
+        </div>
+        <div class="well">
+            <p>对于前端项目来说，特别是初学者非常喜欢直接打开页面，这样会导致里面有些ajax获取或者某些效果不佳，那么启动前端项目的方式有如下</p>
+            <p>我们以本课件为例，这个只是个普通的</p>
+        </div>
+    </div>
+
+    <!--页面盒模型-->
+    <div>
+        <div class="page-header">
+            <h3>页面盒模型</h3>
+        </div>
+        <div class="well">
+            <p>盒模型就是前段的一个比较基础的知识，这里有带css的知识点</p>
+            <div>
+                <img src="./image/index/he.png" alt="" class="imageBaseCss display">
+                <div class="display" style="width: 450px;margin-left: 20px;">
+                    <p>属于w3c标准盒模型</p>
+                    <p>margin: 用于控制元素与元素之间的距离；margin的最基本用途就是控制元素周围空间的间隔，从视觉角度上达到相互隔开的目的。</p>
+                    <p>padding: 用于控制内容与边框之间的距离；</p>
+                    <p>Border(边框): 围绕在内边距和内容外的边框。</p>
+                    <p>Content(内容): 盒子的内容，显示文本和图像。</p>
+                    类似样式：<br>
+                    width: 200px; <br>
+                    height: 200px; <br>
+                    background: #f60; <br>
+                    margin: 30px; <br>
+                    padding: 30px; <br>
+                    border: 30px solid; <br>
+                    text-align: center; <br>
+                    line-height: 80px;
+                </div>
+            </div>
+            <div style="margin-top: 20px">
+                <img src="./image/index/iehe.png" alt="" class="imageBaseCss display">
+                <div class="display" style="width: 450px;margin-left: 20px;">
+                    <p>ie盒模型</p>
+                    w3c中的盒子模型的宽:包括margin+border+padding+width; <br>
+
+                        width:margin*2+border*2+padding*2+width; <br>
+
+                        height:margin*2+border*2+padding*2+height; <br>
+
+                    iE中的盒子模型的width:也包括margin+border+padding+width; <br>
+
+                    上面的两个宽度相加的属性是一样的。 <br>
+
+                    因此我们应该选择标准盒子模型，在网页的顶部加上 DOCTYPE 声明。 <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--iframe的其他使用方式-->
+    <div>
+        <div class="page-header">
+            <h3>iframe的其他使用方式</h3>
+        </div>
+        <div class="well">
+            <div>
+                <p>测试iframe之间的通信：contentWindow.postMessage：<a
+                        href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/postMessage" target="_blank">参考文献</a></p>
+                <p>
+                    思路1：传入数据给iframe引入的html，在html中去监听这个传入的数据，根据传入数据去执行方法， contentWindow.postMessage(message,
+                    targetOrigin, [transfer]);
+                </p>
+                <p>
+                    思路2：如果不允许修改iframe的内容时，可以直接调用iframe的方法去执行， contentWindow.('具体的方法') //contentWindow.btnClick_fp()
+                </p>
+                <button id="toTestIframe">传递一个随机数给子页面</button>
+                <button id="toReturnIframe">调用iframe中子页面返回数据给父页面的方法</button>
+                <p>
+                    子页面返回当前页面的数据：<span id="fatherCtn"></span>
+                </p>
+                <div style="width: 400px;height: 200px;border: 1px solid #ff6600;margin-right: 30px" class="display">
+                    <iframe id="show-iframe" frameborder="0" scrolling="yes"
+                            style="background-color:transparent;width: 100%;height:100%; top: 0;left:0;bottom:0;"
+                            src="./components/iframe/test.html"></iframe>
+                </div>
+                <pre class="display">
+                   //获取父页面传递的数据
+                   window.addEventListener('message', function (event) {
+                       console.log(event.data);
+                       document.getElementById('indexCtn').innerText = event.data
+                   });
+                   function toReturnCtn() {
+                       let num = getRndInteger(1, 20);
+                       window.parent.postMessage(num);
+                   }
+                </pre>
+                <p>
+                    这里科普一下：<span class="red">pre标签</span>，可定义预格式化的文本，简单来说，最经常的作用就是用于<span class="red">展示计算机源码</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--彩蛋-->
+    <div>
+        <div class="page-header">
+            <h3>彩蛋</h3>
+        </div>
+
+        <div class="well">
+            <div>
+                <iframe id="showMenu" frameborder="0" scrolling="yes"
+                        style="background-color:transparent;width: 100%;height: 1000px; top: 0;left:0;bottom:0;"
+                        src="./components/menu/index.html"></iframe>
+            </div>
+            <div>
+                <p>这里的迷宫主要涉及到前端两个知识点：1、canvas画布；2、<span class="red">前端数据结构</span></p>
+                <p>其实在实际的前端开发中，canvas画布其实使用的情况不多，基本上需要的时候去查下资料去看看文档就可以了</p>
+                <p>
+                    但是实际上，这里面对我们影响更大的，属于其中的前端数据结构，这个我现在也并不属于熟系，因为当年自学
+                    <br>
+                    的时候没有系统的学习和规划，吃了这方面的亏(呜呜，这就是没钱报补习班的下场)，现在也相当于弥补，其实有关前端数据接口，在学习了js基础之后
+                    <br>
+                    就要去认真的学习这方面的只是，后面我有对这相关内容作了讲解和学习的心得
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal-->
+<div class="modal fade" id="identifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    模态框（Modal）标题
+                </h4>
+            </div>
+            <div class="modal-body">
+                大辉，其实人家暗恋你好久啦啦ヾ(≥O≤)〃
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- /.modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    模态框（Modal）标题
+                </h4>
+            </div>
+            <div class="modal-body">
+                <img src="image/index/html.jpg" alt="路线之坑" style="width: 100%;height: 300px">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+<script type="text/babel" src="./js/common/common.js"></script>
+<script type="text/babel" src="./js/index.js"></script>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>这里用于实现有关优化样式以及缩放</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <!--引入echarts-->
+    <script src="../../js/incubator-echarts-4.7.0/dist/echarts.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--d3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!--引入课件需求js-->
+    <script src="./JavaScript/simple_hierarchical_data.js"></script>
+    <style>
+        circle {
+            fill: red;
+        }
+
+        line {
+            fill: none;
+            stroke: #ddd;
+            stroke-width: 2px;
+        }
+
+        rect {
+            stroke: blue;
+            fill: none;
+        }
+
+        text {
+            font-family: sans-serif;
+        }
+
+        .continent {
+            font-size: 12px;
+            transform: rotate(-20deg) translate(0px, -8px);
+        }
+
+        .world {
+            font-size: 12px;
+            font-weight: bold;
+            /*transform: rotate(-90deg) translate(-20px, -10px);*/
+            fill: red;
+        }
+
+        .country {
+            font-size: 12px;
+            transform: rotate(0deg);
+        }
+
+    </style>
+</head>
+<body>
+<script>
+    //做特殊的队列判断，针对对原型的隐藏
+    //需要获取到反向等级
+    const Grade = 3;        //右边层次最大等级
+    const zuo = ['last', 'lastone'];   //假设通过等级，获取到等级前一位的具体数据
+    const toZuo = [];       //保存当前对应上一节点以及执行的数据
+
+    const zuo1 = ['zuobian', 'zuobian2', 'last', 'lastone'];
+    const toZuo1 = [];
+    //确定连线坐标节点
+    const toZuo2 = [];
+
+    //针对线的隐藏·1
+    const zuo3 = ['zuobian', 'zuobian2', 'last', 'lastone'];
+    const toZuo3 = [];
+
+    //创建贝塞尔曲线生成器
+    let link = d3.linkHorizontal()
+        .x(function (d) {
+            return d.y;
+        })//生成的曲线在曲线的终点和起点处的切线是水平方向的
+        .y(function (d) {
+            return d.x;
+        });
+
+    //创建基本信息
+    const height = 600;
+    const width = 1000;
+
+    //按照这种类似的思路写一波
+    d3.json('./Data/flareTest.json').then(function (ctn) {
+        //创建对应的层级布局
+        let hierData = d3.hierarchy(ctn)
+            .sum(function (d, i) {
+                return d.value;
+            });
+        //创建树
+        const tree = d3.tree()
+            .size([height - 100, width - 150]); // sideways
+        //初始化树状图数据
+        const treeData = tree(hierData.sort((a, b) => b.height - a.height));
+        //执行树方法
+        draw(treeData);
+    });
+
+    //创建svg的方法
+    function draw(data) {
+        //创建svg
+        const svg = d3.select("body").append("svg").attr("height", height).attr("width", width);
+
+        //创建分组
+        const chart = svg.append("g").attr("transform", "translate(20,50)");
+
+        //具体描绘的情况
+        drawLinks(chart.append("g").attr("class", "links"), data.links());
+        drawNodes(chart.append("g").attr("class", "nodes"), data.descendants());
+    }
+
+    function drawNodes(g, data) {
+        const node = g.selectAll("g.node")
+            .data(data)
+            .enter()
+            .append('g')
+            .attr("class", "node")
+            .attr('transform', function (d) {
+                return 'translate(' + [d.y, d.x] + ')';
+            })
+            .attr("visibility", function (d) {
+                //执行对非必要的隐藏
+                if (zuo3.indexOf(d.data.id) > -1 && toZuo3.indexOf(d.data.id) > -1) {
+                    return 'hidden'
+                } else {
+                    if (zuo3.indexOf(d.data.id) > -1) {
+                        toZuo3.push(d.data.id);
+                    }
+                    return 'visible'
+                }
+            });
+
+        node.append("circle")
+            .attr('r', 5);
+
+        node.append("text")
+            .attr('x', 5)
+            .attr('y', 5)
+            .attr("class", function (d) {
+                if (d.height > 0 && d.depth != 0) {
+                    return "continent";
+                } else if (d.depth == 0) {
+                    return "world";
+                } else {
+                    return "country";
+                }
+            })
+            .text(d => d.data.name);
+    }
+
+    //描线
+    function drawLinks(g, data) {
+        //绘制边
+        g.append('g')
+            .selectAll('path')
+            .data(data)
+            .enter()
+            .append('path')
+            .attr('stroke', 'pink')
+            .attr('stroke-width', 1)
+            .attr('fill', 'none')
+            .attr('d', function (d) {
+                //1.查询是否是某个数组
+                if (zuo1.indexOf(d.target.data.id) > -1 && toZuo1.indexOf(d.target.data.id) > -1) {
+                    //根据具体的情况去使用之前确定的坐标
+                    let thisTakeCtn = '';
+                    toZuo2.forEach(ctn => {
+                        if (ctn.target.data.id === d.target.data.id) {
+                            thisTakeCtn = ctn;
+                        }
+                    });
+                    let start = {
+                        x: d.source.x,
+                        y: d.source.y
+                    };
+                    let end = {
+                        x: thisTakeCtn.target.x,
+                        y: thisTakeCtn.target.y
+                    };
+                    return link({source: start, target: end});
+
+                } else {
+                    if (zuo1.indexOf(d.target.data.id) > -1) {
+                        toZuo1.push(d.target.data.id);
+                        toZuo2.push(d)
+                    }
+                    let start = {
+                        x: d.source.x,
+                        y: d.source.y
+                    };
+                    let end = {
+                        x: d.target.x,
+                        y: d.target.y
+                    };
+                    return link({source: start, target: end});
+                }
+            })
+            .attr('visibility', function (d) {
+                //确定最终能够被用于连线的
+                if (zuo.indexOf(d.target.data.id) > -1) {
+                    /*
+                    * 对于连线的隐藏就非常特殊
+                    * 1、由于连线当前的会对前一个造成影响，所以必须取到好一位
+                    * 2、如何取到其他位数的，获取到其他位数之后，
+                    * */
+                    if (toZuo.indexOf(d.source.data.id) > -1) {
+                        return 'hidden'
+                    } else {
+                        toZuo.push(d.source.data.id);
+                        return 'visible'
+                    }
+                } else {
+                    return 'visible'
+                }
+            });
+    }
+
+
+</script>
+</body>
+</html>

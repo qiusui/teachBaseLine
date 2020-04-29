@@ -1,0 +1,19 @@
+     模式切换命令: 1.切换到鼠标模式   --switch2mouse_mode--
+                 2.切换到键盘模式   --switch2keyboard_mode--
+     鼠标用法:
+     b1 或lc 鼠标左键点击     b2 或rc 鼠标右键点击    b3 或wm 鼠标滚轮
+
+     屏幕像素位置移动 sm   sm 100 100; 表示把鼠标移动到100 100 位置.
+
+     假设目标屏幕设备分辨率:1920*1080, 要移动鼠标到坐标50,100， 则输入: 853 3033
+     x = 50 * 32767 / 1920 = 853
+     y = 100 * 32767 / 1080 = 3033
+
+
+
+     键盘用法:
+     Left Window key: <window>  IME toggle key: <ime>    Enter Key: <return>  Control Down: <ctrl_down>
+      Control Up: <ctrl_up>    Shift Down: <shift_down>
+     Shift Up: <shift_up>   Alt Down: <alt_down>  Alt Up: <alt_up>. CapsLock: <capslock>  ESC: <esc>
+     Backspace: <backspace> Tab: <tab> Insert: <insert> Home: <home> Page Up: <pageup> Page Down: <pagedown> Delete: <del>
+     End: <end> Left Arrow key: <left> Right Arrow key: <right> Up Arrow key: <up> Down Arrow Key: <down>  F1 ~ F12: <f1> ~ <f12>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>前端数据结构</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">前端基础学习课件</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../index.html">首页基础知识</a></li>
+                <li class="active"><a href="../css/index.html">深入html+css</a></li>
+                <li><a href="../javascript/index.html">js深入</a></li>
+                <li><a href="../structure/index.html">前端数据结构</a></li>
+                <li><a href="../es/index.html">es6基础</a></li>
+                <li><a href="../echarts/index.html">echarts测试</a></li>
+                <li><a href="../d3Test/index.html">d3.js</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h2>css个人总结</h2>
+        <p>注意，这里我不讲基础，讲的都是在实际项目中经常胡使用，或者是比较有帮助的，具体的基础，你可以在前民看我的课件项目或者看css文档</p>
+    </div>
+    <div>
+        <div class="page-header">
+            <h3>css个人总结</h3>
+        </div>
+        <div class="well" id="myDiv"></div>
+    </div>
+
+    <div>
+        <div class="page-header">
+            <h3>总结常用</h3>
+        </div>
+        <div class="well">
+            <ul>
+                <li>
+                    <p>dispalay:flex：<a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">文档</a>，
+                        建议直接看，这个，我也经常回来看</p>
+                </li>
+                <li>
+                    <p>
+                       <span class="red">/deep/</span>：深入选择器，能进去很深很深的那种哦！
+                    </p>
+                    <p>
+                        作用：在使用组件非常常用，比如用了饿了么组件，要改组件里面的样式
+                    </p>
+                    <pre>
+                        .mint-radiolist /deep/ .mint-cell-title { margin-top: 0.3rem; }
+                    </pre>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script src="./index.js" type="text/babel"></script>
+<script src="../../js/common/common.js"></script>
+</html>

@@ -1,0 +1,119 @@
+{
+  "name": "中国",
+  "children": [
+    {
+      "name": "浙江",
+      "children": [
+        {
+          "name": "杭州",
+          "value": 100,
+          "children": [
+            {
+              "name": "共有节点1",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian",
+                  "name": "3级别",
+                  "GradeTo": "太空3"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "新疆",
+      "children": [
+        {
+          "name": "乌鲁木齐",
+          "value": 100,
+          "children": [
+            {
+              "name": "共有节点2",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian",
+                  "name": "3级别",
+                  "GradeTo": "太空2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "克拉玛依",
+          "children": [
+            {
+              "name": "共有节点3",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian2",
+                  "name": "test",
+                  "GradeTo": "太空2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "吐鲁番",
+          "children": [
+            {
+              "name": "共有节点4",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian2",
+                  "name": "test",
+                  "GradeTo": "太空1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "哈密",
+          "children": [
+            {
+              "name": "哈密1",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian2",
+                  "name": "test",
+                  "GradeTo": 3
+                }
+              ]
+            },
+            {
+              "name": "哈密2",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian6",
+                  "name": "zuobian6",
+                  "GradeTo": "太空1"
+                }
+              ]
+            },
+            {
+              "name": "哈密3",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian8",
+                  "name": "zuobian8",
+                  "GradeTo": "太空3"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

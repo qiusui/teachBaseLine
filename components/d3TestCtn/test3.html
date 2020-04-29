@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <!--引入echarts-->
+    <script src="../../js/incubator-echarts-4.7.0/dist/echarts.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--d3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!--引入课件需求js-->
+    <script src="./JavaScript/simple_hierarchical_data.js"></script>
+    <style>
+
+        .node circle {
+            fill: yellow;
+            stroke: red;
+            stroke-width: 1.5px;
+        }
+
+        .node {
+            font: 10px sans-serif;
+        }
+
+        .link {
+            fill: green;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+
+    </style>
+</head>
+<body>
+<script>
+    //创建我们需要的基本信息
+    //位置参数
+    let margin = ({top: 10, right: 120, bottom: 10, left: 40}),
+        dx = 10,
+        dy = 159,
+        width = 159 * 6;
+
+    let i = 0,
+        root;
+
+    //声明树布局
+    let tree = d3.tree().nodeSize([dx, dy]);
+
+    //设置曲线
+    let diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x);
+
+    const svg = d3.select('body').append('svg')
+        .attr("viewBox", [-margin.left, -margin.top, width, dx])
+        .style("font", "10px sans-serif")
+        .style("user-select", "none");
+
+    const gLink = svg.append("g")
+        .attr("fill", "none")
+        .attr("stroke", "#555")
+        .attr("stroke-opacity", 0.4)
+        .attr("stroke-width", 1.5);
+
+    const gNode = svg.append("g")
+        .attr("cursor", "pointer")
+        .attr("pointer-events", "all");
+
+    d3.json('./Data/flare-2.json').then(function (data) {
+        root = d3.hierarchy(data);
+        root.x0 = dy / 2;
+        root.y0 = 0;
+        //这里应该是控制是否全部展开或者全部收齐
+        //这里通过数据下面是否存在children来进行判断
+        root.descendants().forEach((d, i) => {
+            d.id = i;
+            d._children = d.children;
+            if (d.depth && d.data.name.length !== 7) {
+                d.children = null
+            }
+        });
+
+        //更新数据
+        update(root);
+    });
+
+    //进行数据更新
+    function update(source) {
+
+        console.log(root);
+
+        const duration = d3.event && d3.event.altKey ? 2500 : 250;
+        const nodes = root.descendants().reverse();
+        const links = root.links();
+
+        //计算新的树布局
+        tree(root);
+
+        let left = root;
+        let right = root;
+        root.eachBefore(node => {
+            if (node.x < left.x) left = node;
+            if (node.x > right.x) right = node;
+        });
+
+        const height = right.x - left.x + margin.top + margin.bottom;
+
+        const transition = svg.transition()
+            .duration(duration)
+            .attr("viewBox", [-margin.left, left.x - margin.top, width, height])
+            .tween("resize", window.ResizeObserver ? null : () => () => svg.dispatch("toggle"));
+
+        // Update the nodes…
+        const node = gNode.selectAll("g")
+            .data(nodes, d => d.id);
+
+        // 创建一个新节点.
+        const nodeEnter = node.enter().append("g")
+            .attr("transform", d => `translate(${source.y0},${source.x0})`)
+            .attr("fill-opacity", 0)
+            .attr("stroke-opacity", 0)
+            .on("click", d => {
+                d.children = d.children ? null : d._children;
+                //点击事件也是重新执行数据更新
+                update(d);
+            });
+
+        nodeEnter.append("circle")
+            .attr("r", 2.5)
+            .attr("fill", d => d._children ? "#555" : "#999")
+            .attr("stroke-width", 10);
+
+        nodeEnter.append("text")
+            .attr("dy", "0.31em")
+            .attr("x", d => d._children ? -6 : 6)
+            .attr("text-anchor", d => d._children ? "end" : "start")
+            .text(d => d.data.name)
+            .clone(true).lower()
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-width", 3)
+            .attr("stroke", "white");
+
+        // 将节点转换到新位置
+        const nodeUpdate = node.merge(nodeEnter).transition(transition)
+            .attr("transform", d => `translate(${d.y},${d.x})`)
+            .attr("fill-opacity", 1)
+            .attr("stroke-opacity", 1);
+
+        // 将现有节点转换到父节点的新位置
+        const nodeExit = node.exit().transition(transition).remove()
+            .attr("transform", d => `translate(${source.y},${source.x})`)
+            .attr("fill-opacity", 0)
+            .attr("stroke-opacity", 0);
+
+        //更新线路
+        const link = gLink.selectAll("path")
+            .data(links, d => d.target.id);
+
+        //在父级的上一个位置输入任何新链接。
+        const linkEnter = link.enter().append("path")
+            .attr("d", d => {
+                const o = {x: source.x0, y: source.y0};
+                return diagonal({source: o, target: o});
+            });
+
+        // 转换链接到他们的新位置
+        link.merge(linkEnter).transition(transition)
+            .attr("d", diagonal);
+
+        // 将现有节点转换到父节点的新位置
+        link.exit().transition(transition).remove()
+            .attr("d", d => {
+                const o = {x: source.x, y: source.y};
+                return diagonal({source: o, target: o});
+            });
+
+        //把旧位置藏起来以便过渡
+        root.eachBefore(d => {
+            d.x0 = d.x;
+            d.y0 = d.y;
+        });
+    }
+</script>
+</body>
+</html>

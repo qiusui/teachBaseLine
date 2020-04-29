@@ -1,0 +1,205 @@
+编程的时候出现的问题：
+1、东西写的尽量简单
+
+2、学习的一些东西：编程的时候遇到的一些问题和值得注意的方法
+1、border-radius: 0 5px 0 5px;	//简写，用来代替之前的写法
+
+2、calc：运算方法，在一些地方经常使用，width:calc(50% + 2em)
+
+3、chrom浏览器中手机端默认的最小字体是36，注意rem(36)，也就是说最小是36
+
+4、flex布局：弹性布局，用来为和模型提供最大的灵活性，比较适合用于移动端开发使用
+资料网站：http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
+
+任何容器都可以使用flex布局
+.box{ display:flex }
+.box{ display:inline-flex; }	//行内元素也可以使用flex布局
+
+注意，设为Flex布局以后，子元素的float、clear和vertical-align属性将失效。
+
+flex布局的基本概念：使用flex布局之后，里面的子元素都会成为容器成员，作为项目
+容器的属性：
+flex-direction
+flex-wrap
+flex-flow
+justify-content
+align-items
+align-content
+
+flex-direction: row | row-reverse | column | column-reverse;	//控制项目的排列方向
+
+flex-wrap: nowrap | wrap | wrap-reverse;		//换行方式，nowrap默认不换行
+
+flex-flow属性是flex-direction属性和flex-wrap属性的简写形式
+flex-flow: <flex-direction> || <flex-wrap>
+
+justify-content属性定义了项目在主轴上的对齐方式。
+flex-start（默认值）：左对齐  flex-end：右对齐  center： 居中  space-between：两端对齐，项目之间的间隔都相等。
+space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。
+justify-content: flex-start | flex-end | center | space-between | space-around;
+
+
+5、framework7，用于开发混合移动端的工具，主要是针对ios7的框架，相关的framework7文件备份了一些在e盘muke下的framework7
+
+
+6、box-sizing属性：用于操作控制需要并排放置两个带边框的框
+box-sizing：content-box(default)，border-box，padding-box
+-webkit-box-sizing：100px	//for ios-safari，android
+-moz-box-sizing：100px		//for ff
+box-sizing：100px		//for other
+
+
+7、最通过学习之后，发现可以实现在手机端的一些方法，链接：http://www.xuebuyuan.com/2174858.html
+touch事件touch是针对触屏手机上的触摸事件。现今大多数触屏手机webkit内核提供了touch事件的监听,
+touchstart ： 当手指触摸到屏幕会触发；手指点击		//类似与mousedown
+touchmove : 当手指在屏幕上移动时，会触发；手指移动	//类似与mouseover
+touchend : 当手指离开屏幕时，会触发；手指离开		//类似与mouseup
+touchcancel：手机没离开的时候，触发
+
+
+8、有关rem，em，px
+如果你没有在根元素指定参照值，那浏览器默认就是 1rem 为 16px,如果你指定了值假设为 20px，那 1rem 就为 20px。
+那 px 和 rem 之间的换算就是 px 直接除以 10 就得到 rem
+
+
+9、如果遇到有关背景图片较多的设计稿，或者是有些地方比较难以完成的设计稿，可以使用直接切图的方法
+
+
+10、对于手机端实现图片全屏自适应的方法
+1、直接在body中实现，在body中引入效果图片，使用background-size:cover  或者  background-size:100%  100%等方法
+2、可以使用类似与遮盖幕的方式：position:fixed;top:0;left:0;width:100%;height:100%
+3、将父类定义为100%的高宽后，自定定义高宽，直接引用
+4、或者通过js或者jq的方法获取到相对高宽，例如jq的$(window).height获取到获取浏览器显示区域的高度，将高宽带入即可
+
+
+11、有关如何在手机端调试页面的方法：需要使用数据线查看
+
+
+12、在布局的时候，会有height:100%和height:auto两种写法，这里我详细介绍一下
+width/height：100%；这个更多是用于更具父类元素的布局，根据继承来自父类的高度和宽度
+width/height：auto；这个是表示随着内容的高度而撑开，包括了margin-top/maring-bottom值
+
+
+13、margin：10px atuo 10px；//这个表示 上 左右 下
+
+
+14、while和for循环：
+for(var i=0;i<l;i++){}		//for循环是适合知道循环次数的循环，循环l次
+
+while(条件){  }		//while适合不知道循环次数的循环，指定的条件为true的时候，会一直循环
+例如：
+var i = 0; while(i<5){ i++; }	//当不满足条件的时候跳出，这里我详细距离一下
+例如有很多个li，每排最后的li，假定是第四个需要进行定位，不至于下去，该如何处理：
+
+    while(i){
+        if((i+1)%5 == 0){
+            console.log(i);
+            lis.eq(i).css({
+                "marginRight":"0"
+            })
+        }
+        i--;
+    }
+
+
+//ie8不兼容
+其实还有一种更简单的方法：
+p:nth-child(3n+0)		//3n+0表示的是3的倍数
+{
+background:#ff0000;
+}
+
+
+15、对于可以使用js的方法是的无需页面重复修改的小技巧，
+例如footer底部的内容，可以在js文件中再编辑一份，如果修改，可直接在js文件中修改，例如：
+$("footer").html("相关详细内容等等");
+
+
+
+16、文本的内容隐藏方法，css的，在页面中经常使用
+//用于内容一类的
+.brief_right {
+width: 70%;
+padding-right: 36px;
+height: 176px;
+
+display: -webkit-box;
+-webkit-box-orient: vertical;
+overflow: hidden;
+-webkit-line-clamp: 6;
+line-clamp: 6;
+}
+
+//经常用于标题一类的
+.ellipsis {
+
+  white-space: nowrap;
+  word-wrap: normal;
+  word-break: normal;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  overflow: hidden;
+display:block  或者是display:inline-block
+}
+
+
+
+17、jq多个元素绑定同一个方法的简写：
+$('#begin,#end').function(){  }
+
+
+18、使用webstrom可以对gulp进行相应的控制，通过gulp.js是可以设置相应id来进行打开
+
+
+19、错误图片默认显示
+
+<img src="img1.png"onerror="this.onerror='';this.src='img1.png'" />
+
+
+20、input的默认写法：数字弹出框为数字以及数字长度
+<input type="number" id="phone" name="phone" class="item-text" placeholder="请输入手机号码" autocomplete="off" tip="请输入帐号" maxlength="11">
+
+
+21、如果有遇到js中文编码错误，可以在js脚本处添加charset="gb2312"，例如：
+<script type="text/javascript" src="script/return_rem.js" charset="gb2312"></script>
+
+
+22、不同的浏览器都会对宽高的px会有一定的差距，为了防止这样的bug,页面中能够不用写死宽高的尽量不用
+
+
+23、有关forEach函数的使用
+forEach比较类似与for(var i=0;i<length;i++){}
+
+例如: var array = [];
+array.push(1);array.push(2);array.push(3);array.push(4);
+array.forEach(function(e){ console.log(e) })	//会依次输出1234
+
+这个foreach是属于e5的新的知识点，[].forEach(function(){})
+
+
+
+24、平时我们使用循环语句主要是for循环和while循环比较多，当时如果要对相关语句进行限制执行次数，这里想到了一个使用定时器的方法
+当时这个是有限制时间和其他的，不能这样使用
+
+var repeat = 2;
+var timer = setInterval(function(){
+if(repeat ====0){
+clearInterval(timer);
+//执行其他代码
+}else {
+repeat --;
+//执行其他代码
+}
+})
+
+
+25、这里用到的css   //靠谱云用到的css
+/*清除ie10下的input的x*/
+input::-ms-clear{
+    display:none;
+}
+input::-ms-reveal{
+    display:none;
+}
+
+

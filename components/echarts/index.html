@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>echarts测试</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <!--引入echarts-->
+    <script src="../../js/incubator-echarts-4.7.0/dist/echarts.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">前端基础学习课件</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../index.html">首页基础知识</a></li>
+                <li><a href="../css/index.html">深入html+css</a></li>
+                <li><a href="../javascript/index.html">js深入</a></li>
+                <li><a href="../structure/index.html">前端数据结构</a></li>
+                <li><a href="../es/index.html">es6基础</a></li>
+                <li class="active"><a href="../echarts/index.html">echarts测试</a></li>
+                <li><a href="../d3Test/index.html">d3.js</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h2>echarts</h2>
+        <p>1、我发现如果是在vue.js中使用到了echarts，那么，echarts的绝大部分问题，几乎都是可以通过设置组件，然后绑定key来解决</p>
+    </div>
+    <div>
+        <div class="page-header">
+            <h3>echarts测试关系图</h3>
+        </div>
+        <div class="well">
+            <p>这里主要是测试echarts的组件，和实际前端学习的关系不大，业务需求，所以你学完了吃饱饭没事做可以来研究下试试</p>
+            <p>功能：点击鼠标右键添加节点</p>
+            <div id="OdfMes" style="width: 100%;height: 800px;"></div>
+            <div style="margin-top: 30px">
+                <p>
+                    这里发现了echart的一个比较奇怪的地方，我执行代码的时候，如果将定位layout，和fixed定位公用的话，第一次执行是不会报错得，
+                    也就是说，当我数据中直接包括的情况下，不会报错，但是我数据改变之后，重新myChart.setOption的时候，就会报错
+                </p>
+                <p>
+                    <span class="red">解决方法：</span>
+                    也就是说，如果需要让这个数据变化之后还能生效并执行不报错，那么就需要你在数据变化之后，重新把这一块的组件完全
+                    重新执行一遍，那么，<span class="red">在vue.js中，可以通过设置key</span>；<span class="red">解释</span>：在
+                    vue.js中，具体组件默认是加载之后，不在重新加载，而是默认使用缓存页面，减少了加载和消耗，但是如果你给定义:key=time，
+                    而组件的key的time会改变，那么这个组件就会被重新加载
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--测试新需求桑吉图-->
+    <div>
+        <div class="page-header">
+            <h3>测试新需求桑吉图</h3>
+        </div>
+        <div class="well">
+            <p>测试桑吉图</p>
+            <p>主要是研究修改样式，以及其中各种连线以及对应关系</p>
+            <div id="main-container" style="width: 100%;height: 1200px"></div>
+        </div>
+    </div>
+
+    <!--测试树形结构图-->
+    <div>
+        <div class="page-header">
+            <h3>测试树形结构图原形情况</h3>
+        </div>
+        <div class="well">
+            <p>测试树形结构图原形情况</p>
+            <p>测试树形结构图，以及其中各种连线以及对应关系</p>
+            <div id="main-containerCricle" style="width: 100%;height: 1200px"></div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/babel" src="index.js"></script>
+</html>

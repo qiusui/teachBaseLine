@@ -1,0 +1,27 @@
+body {
+    padding-top: 70px;
+    padding-bottom: 30px;
+}
+
+.imageBaseCss {
+    width: 530px;
+    height: 360px;
+}
+
+.display {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.red {
+    color: red !important;
+    font-weight: bold !important;
+}
+
+.marginTop {
+    margin-top: 20px;
+}
+
+.bigMarginTop {
+    margin-top: 100px;
+}

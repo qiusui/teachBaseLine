@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel" src="../../js/common/common.js"></script>
+</head>
+<body>
+<div>
+    <p>这里是用于测试iframe的各种操作</p>
+    <p>父页面传递过来的数据：<span id="indexCtn"></span></p>
+    <button id="returnCtn" onclick="toReturnCtn()">子页面传递父页面数据</button>
+    <p>window.parent.postMessage</p>
+</div>
+</body>
+<script type="text/babel">
+    //获取父页面传递的数据
+    window.addEventListener('message', function (event) {
+        console.log(event.data);
+        document.getElementById('indexCtn').innerText = event.data
+    });
+    function toReturnCtn() {
+        let num = getRndInteger(1, 20);
+        window.parent.postMessage(num);
+    }
+</script>
+</html>

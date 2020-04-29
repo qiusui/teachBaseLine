@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>这里用于实现有关优化样式以及缩放</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <!--引入echarts-->
+    <script src="../../js/incubator-echarts-4.7.0/dist/echarts.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--d3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!--引入课件需求js-->
+    <script src="./JavaScript/simple_hierarchical_data.js"></script>
+    <style>
+        circle {
+            fill: red;
+        }
+
+        line {
+            fill: none;
+            stroke: #ddd;
+            stroke-width: 2px;
+        }
+
+        rect {
+            stroke: blue;
+            fill: none;
+        }
+
+        text {
+            font-family: sans-serif;
+        }
+
+        .continent {
+            font-size: 12px;
+            transform: rotate(-20deg) translate(0px, -8px);
+        }
+
+        .world {
+            font-size: 12px;
+            font-weight: bold;
+            fill: red;
+        }
+
+        .country {
+            font-size: 12px;
+            transform: rotate(0deg);
+        }
+
+    </style>
+</head>
+<body>
+<h3>这里用于实现有关优化样式以及缩放</h3>
+<script>
+    //做特殊的队列判断，针对对原型的隐藏
+    //需要获取到反向等级
+    const Grade = 3;        //右边层次最大等级
+    const zuo = ['last', 'lastone'];   //假设通过等级，获取到等级前一位的具体数据
+    const toZuo = [];       //保存当前对应上一节点以及执行的数据
+
+    const zuo1 = ['zuobian', 'zuobian2', 'last', 'lastone'];
+    const toZuo1 = [];
+    //确定连线坐标节点
+    const toZuo2 = [];
+
+    //针对线的隐藏·1
+    const zuo3 = ['zuobian', 'zuobian2', 'last', 'lastone'];
+    const toZuo3 = [];
+
+    //创建基本信息
+    const height = 600;
+    const width = 1000;
+
+    let margin = ({top: 10, right: 120, bottom: 10, left: 40}),
+        dx = 10,
+        dy = 159;
+
+    let i = 0,
+        root;
+
+    //声明树布局
+    const tree = d3.tree()
+        .size([height - 100, width - 150]); // sideways
+
+    //创建贝塞尔曲线生成器
+    let diagonal = d3.linkHorizontal()
+        .x(function (d) {
+            return d.y;
+        })//生成的曲线在曲线的终点和起点处的切线是水平方向的
+        .y(function (d) {
+            return d.x;
+        });
+
+    //创建svg
+    const svg = d3.select("body").append("svg").attr("height", height).attr("width", width);
+
+    //这两个应该是用于创建来更新线路的
+    const gLink = svg.append("g")
+        .attr("fill", "none")
+        .attr("stroke", "#555")
+        .attr("stroke-opacity", 0.4)
+        .attr("stroke-width", 1.5);
+
+    const gNode = svg.append("g")
+        .attr("cursor", "pointer")
+        .attr("pointer-events", "all");
+
+    //按照这种类似的思路写一波
+    d3.json('./Data/flareTest.json').then(function (ctn) {
+        //创建对应的层级布局
+        //这里应该是控制是否全部展开或者全部收齐
+        //这里通过数据下面是否存在children来进行判断
+        root = d3.hierarchy(ctn);
+        root.x0 = dy / 2;
+        root.y0 = 0;
+        root.descendants().forEach((d, i) => {
+            d.id = i;
+            d._children = d.children;
+            if (d.depth && d.data.name.length !== 7) {
+                //d.children = null
+            }
+        });
+
+        //更新数据
+        update(root);
+    });
+
+    //进行数据更新
+    function update(source) {
+        const duration = d3.event && d3.event.altKey ? 2500 : 250;
+        const nodes = root.descendants().reverse();
+        const links = root.links();
+
+        //计算新的树布局
+        tree(root);
+
+        let left = root;
+        let right = root;
+        root.eachBefore(node => {
+            if (node.x < left.x) left = node;
+            if (node.x > right.x) right = node;
+        });
+
+        const height = right.x - left.x + margin.top + margin.bottom;
+
+        const transition = svg.transition()
+            .duration(duration)
+            .attr("viewBox", [-margin.left, left.x - margin.top, width, height])
+            .tween("resize", window.ResizeObserver ? null : () => () => svg.dispatch("toggle"));
+
+        //更新node
+        const node = gNode.selectAll("g")
+            .data(nodes, d => d.id);
+
+        // 创建一个新节点.
+        const nodeEnter = node.enter().append("g")
+            .attr("transform", d => `translate(${source.y0},${source.x0})`)
+            .attr("fill-opacity", 0)
+            .attr("stroke-opacity", 0)
+            .on("click", d => {
+                d.children = d.children ? null : d._children;
+                //点击事件也是重新执行数据更新
+                update(d);
+            })
+            .attr("visibility", function (d) {
+                //执行对非必要的隐藏
+                if (zuo3.indexOf(d.data.id) > -1 && toZuo3.indexOf(d.data.id) > -1) {
+                    return 'visible'
+                } else {
+                    if (zuo3.indexOf(d.data.id) > -1) {
+                        toZuo3.push(d.data.id);
+                    }
+                    return 'visible'
+                }
+            });
+
+        nodeEnter.append("circle")
+            .attr("r", 5)
+            .attr("fill", d => d._children ? "#555" : "#999")
+            .attr("stroke-width", 10);
+
+        nodeEnter.append("text")
+            .attr("dy", "0.31em")
+            .attr("x", d => d._children ? -6 : 6)
+            .attr("text-anchor", d => d._children ? "end" : "start")
+            .text(d => d.data.name)
+            .clone(true).lower()
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-width", 3)
+            .attr("stroke", "white");
+
+        // 将节点转换到新位置
+        const nodeUpdate = node.merge(nodeEnter).transition(transition)
+            .attr("transform", d => `translate(${d.y},${d.x})`)
+            .attr("fill-opacity", 1)
+            .attr("stroke-opacity", 1);
+
+        // 将现有节点转换到父节点的新位置
+        const nodeExit = node.exit().transition(transition).remove()
+            .attr("transform", d => `translate(${source.y},${source.x})`)
+            .attr("fill-opacity", 0)
+            .attr("stroke-opacity", 0);
+
+        //更新线路
+        const link = gLink.selectAll("path")
+            .data(links, d => d.target.id);
+
+        //在父级的上一个位置输入任何新链接。
+        const linkEnter = link.enter().append("path")
+            .attr("d", d => {
+                const o = {x: source.x0, y: source.y0};
+                return diagonal({source: o, target: o});        //开始和结束坐标节点都是一样的
+            });
+
+        // 转换链接到他们的新位置
+        link.merge(linkEnter).transition(transition)
+            .attr("d", diagonal);
+
+        // 将现有节点转换到父节点的新位置
+        link.exit().transition(transition).remove()
+            .attr("d", d => {
+                const o = {x: source.x, y: source.y};
+                return diagonal({source: o, target: o});        //开始和结束坐标节点都是一样的
+            });
+
+        //把旧位置藏起来以便过渡
+        root.eachBefore(d => {
+            d.x0 = d.x;
+            d.y0 = d.y;
+        });
+    }
+</script>
+</body>
+</html>

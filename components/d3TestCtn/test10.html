@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>这里用于实现有关优化样式以及缩放</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <!--引入echarts-->
+    <script src="../../js/incubator-echarts-4.7.0/dist/echarts.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--d3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!--引入课件需求js-->
+    <script src="./JavaScript/simple_hierarchical_data.js"></script>
+    <style>
+        circle {
+            fill: red;
+        }
+
+        line {
+            fill: none;
+            stroke: #ddd;
+            stroke-width: 2px;
+        }
+
+        rect {
+            stroke: blue;
+            fill: none;
+        }
+
+        text {
+            font-family: sans-serif;
+        }
+
+        .continent {
+            font-size: 12px;
+            transform: rotate(-20deg) translate(0px, -8px);
+        }
+
+        .world {
+            font-size: 12px;
+            font-weight: bold;
+            /*transform: rotate(-90deg) translate(-20px, -10px);*/
+            fill: red;
+        }
+
+        .country {
+            font-size: 12px;
+            transform: rotate(0deg);
+        }
+
+    </style>
+</head>
+<body>
+<script>
+    //创建贝塞尔曲线生成器
+    const link = d3.linkHorizontal()
+        .x(function(d) { return -d.y; })
+        .y(function(d) { return d.x; });
+
+    //创建基本信息
+    const height = 600;
+    const width = 600;
+
+    //按照这种类似的思路写一波
+    //创建对应的层级布局
+    const result = {
+        "name": "太空",
+        "children": [
+            {
+                "name": "太空4",
+            },
+            {
+                "name": "太空3",
+            },
+            {
+                "name": "太空2",
+            },
+            {
+                "name": "太空1",
+            }
+        ]
+    };
+    //创建树
+    // const tree = d3.tree()
+    //     .size([height - 100, width - 150]); // sideways
+    // //初始化树状图数据
+    // const treeData = tree(hierData.sort((a, b) => b.height - a.height));
+
+
+    //数据初始化
+    const root = d3.hierarchy(result);
+
+    // tree
+    const tree = d3.tree()
+        .size([height - 100, width - 150]); // sideways
+    const treeData = tree(root.sort((a,b) => b.height - a.height));
+
+    //执行树方法
+    draw(treeData);
+
+    //创建svg的方法
+    function draw(data) {
+        //创建svg
+        const svg = d3.select("body").append("svg").attr("height", height).attr("width", width);
+
+        //创建分组
+        const chart = svg.append("g").attr("transform",`translate(${width - 30},50)`);
+
+        //具体描绘的情况
+        drawLinks(chart.append("g").attr("class", "links"), data.links());
+        drawNodes(chart.append("g").attr("class", "nodes"), data.descendants());
+    }
+
+    function drawNodes(g, data) {
+        const node = g.selectAll("g.node")
+            .data(data)
+            .enter()
+            .append('g')
+            .attr("class", "node")
+            .attr('transform', function (d) {
+                return 'translate(' + [-d.y, d.x] + ')';
+            });
+
+        node.append("circle")
+            .attr('r', 5);
+
+        node.append("text")
+            .attr('x', 5)
+            .attr('y', 5)
+            .attr("class", function (d) {
+                if (d.height > 0 && d.depth != 0) {
+                    return "continent";
+                } else if (d.depth == 0) {
+                    return "world";
+                } else {
+                    return "country";
+                }
+            })
+            .text(d => d.data.name);
+    }
+
+    //描线
+    function drawLinks(g, data) {
+        //绘制边
+        g.append('g')
+            .selectAll('path')
+            .data(data)
+            .enter()
+            .append('path')
+            .attr('stroke', 'pink')
+            .attr('stroke-width', 1)
+            .attr('fill', 'none')
+            .attr('d', link)
+    }
+
+
+</script>
+</body>
+</html>

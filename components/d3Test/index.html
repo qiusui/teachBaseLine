@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3.js测试</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <link rel="stylesheet" href="./index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <!--引入echarts-->
+    <script src="../../js/incubator-echarts-4.7.0/dist/echarts.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--d3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!--引入课件需求js-->
+    <script src="./JavaScript/simple_hierarchical_data.js"></script>
+</head>
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">前端基础学习课件</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../index.html">首页基础知识</a></li>
+                <li><a href="../css/index.html">深入html+css</a></li>
+                <li><a href="../javascript/index.html">js深入</a></li>
+                <li><a href="../structure/index.html">前端数据结构</a></li>
+                <li><a href="../es/index.html">es6基础</a></li>
+                <li><a href="../echarts/index.html">echarts测试</a></li>
+                <li class="active"><a href="">d3.js</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h2>d3.js</h2>
+        <p>d3.js和echarts.js的关系其实就类似于javascript和vue.js的关系，vue.js使用js作为底层代码写成的一个架构</p>
+        <p>如果是简单的图形，可以使用echarts作为架构最快，但是往往需求不一样，所以，掌握源码d3.js还是有必要的</p>
+        <p>D3 (或者叫 D3.js )是一个基于 web 标准的 JavaScript 可视化库. D3 可以借助 SVG, Canvas 以及 HTML 将你的数据生动的展现出来. D3
+            结合了强大的可视化交互技术以及数据驱动 DOM 的技术结合起来, 让你可以借助于现代浏览器的强大功能自由的对数据进行可视化.</p>
+        <p class="red">在实际开发中，我发现d3.js的很多写法和api，都非常类似jquery中的api，所以可以互通一下</p>
+        <p>所以，恭喜你进入了一个新的大坑</p>
+        <p class="red"><a href="https://d3js.org.cn/" target="_blank">比较好的官网：https://d3js.org.cn/</a></p>
+        <p>科普一下，这里可以通过http-server的方式启动哦</p>
+    </div>
+
+    <!--测试基本代码-->
+    <div>
+        <div class="page-header">
+            <h3>测试基本代码</h3>
+        </div>
+        <div class="well">
+            <svg id="chart1" width="600" height="200"></svg>
+            <svg id="chart2" width="600" height="200"></svg>
+            <svg id="chart3" width="600" height="200"></svg>
+        </div>
+    </div>
+
+    <div>
+        <div class="page-header">
+            <h3>svg</h3>
+        </div>
+        <div class="well">
+            <div>
+                <h3>svg的直线，圆形，椭圆，矩形</h3>
+                <p>这里主要是介绍svg中的各种属性，具体详情可参考文档：<a href="https://d3js.org.cn/svg/get_start/">https://d3js.org.cn/svg/get_start/</a>
+                </p>
+                <svg width="600" height="300" id="chart4">
+                    <!--svg圆-->
+                    <circle r="25"></circle>
+                    <circle cx="300" cy="150" r="50"></circle>
+                    <circle cx="100" cy="50" r="20"></circle>
+                    <circle cx="600" cy="300" r="50"></circle>
+                    <!--直线-->
+                    <line x1="0" y1="0" x2="400" y2="0" stroke="red" stroke-width="5"/>
+                    <line x1="0" y1="0" x2="0" y2="150" stroke="blue" stroke-width="5"/>
+                    <line x1="0" y1="0" x2="200" y2="150" stroke="black" stroke-width="1"/>
+                    <line x1="0" y1="0" x2="0" y2="250" stroke="#f60" stroke-width="5" stroke-opacity="0.5"/>
+                    <!--矩形-->
+                    <rect x="25" y="150" width="100" height="100" rx="10" ry="10"
+                          stroke="green"
+                          stroke-width="2"
+                          stroke-dasharray="5 5"
+                          fill-opacity="0"/>
+                    <rect x="175" y="150" width="100" height="100" rx="10" ry="10"
+                          stroke="red"
+                          stroke-width="5"
+                          stroke-opacity="0.5"
+                          fill-opacity="0"/>
+                    <rect x="325" y="150" width="100" height="100" rx="10" ry="10"
+                          stroke="green"
+                          fill="blue"
+                          fill-opacity="0.2"
+                          stroke-width="20"
+                          stroke-opacity="0.2"/>
+                    <!--椭圆-->
+                    <ellipse cx="150" cy="100" rx="150" ry="100"
+                             fill="yellow" fill-opacity="0.5"
+                             stroke="blue" stroke-width="1" stroke-dasharray="5 5"/>
+                </svg>
+            </div>
+
+            <div class="marginTop">
+                <h3>svg折线</h3>
+                <p>polyline元素表示一个折线，使用points属性指定一系列点，不自动封闭图形：<a href="https://d3js.org.cn/svg/get_start/">https://d3js.org.cn/svg/get_start/</a>
+                </p>
+                <svg width="600" height="300" id="chart4">
+                    <polyline points="150,150
+                       50,150
+                       100,20
+                       150,50
+                       200,200
+                       50,200
+                       20,154
+                       48,82
+                       32,20"
+                              stroke="red"
+                              stroke-width="2"
+                              fill-opacity='0'
+                    />
+
+                    <polyline points="450,150
+                      350,150
+                      400,20
+                      450,50
+                      500,200
+                      350,200
+                      320,154
+                      348,82
+                      332,20"
+                              stroke-dasharray
+                              fill="red"
+                              fill-rule="evenodd"/>
+                </svg>
+            </div>
+
+            <div class="marginTop">
+                <h3>svg折线</h3>
+                <p>SVG Move + Curve + Line：<a href="https://d3js.org.cn/svg/get_start/">https://d3js.org.cn/svg/get_start/</a>
+                </p>
+                <svg width="600" height="300" id="chart4">
+                    <path d="M100,200 C200,50 300,100 300,200
+                             L400,250 500,100"
+                          fill="white"
+                          stroke="red"
+                          stroke-width="4"/>
+
+                    <path d="M100,150 C100,50 250,50 250,150
+             S400,250 400,150"
+                          fill="white"
+                          stroke="red"
+                          stroke-width="4"/>
+
+                    <circle cx="100" cy="200" r="4" stroke-width="2" stroke="gray" fill="black"/>
+                    <circle cx="200" cy="50" r="4" stroke-width="2" stroke="gray" fill="green"/>
+                    <circle cx="300" cy="100" r="4" stroke-width="2" stroke="gray" fill="green"/>
+                    <circle cx="300" cy="200" r="4" stroke-width="2" stroke="gray" fill="blue"/>
+                    <circle cx="400" cy="250" r="4" stroke-width="2" stroke="gray" fill="green"/>
+                    <circle cx="500" cy="100" r="4" stroke-width="2" stroke="gray" fill="orange"/>
+                </svg>
+            </div>
+
+            <div class="marginTop">
+                <h3>d3.js中svg的结构</h3>
+                <p>之前在研究d3.js的时候感觉比较复杂，但是实际上，在多次研究之后，给我的感觉就是，具体的都是svg中的图形元素进行各种控制，<br>
+                    所以，不要要考虑的非常复杂，只要对svg进行比较了解就行</p>
+                <p>对于d3.js，主要会在编程中实现以及采用的数据有</p>
+                <ol>
+                    <li>
+                        g元素用来将其子元素作为一个组合，可以使文档结构更清晰。除此之外，在g标签中指定的所有样式会应用于组合内的所有子元素，可以不用在所有子元素上指定属性。
+                    </li>
+                    <li>
+                        tran
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/babel" src="index.js"></script>
+</html>

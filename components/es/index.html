@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>es6基础</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">前端基础学习课件</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../index.html">首页基础知识</a></li>
+                <li><a href="../css/index.html">深入html+css</a></li>
+                <li><a href="../javascript/index.html">js深入</a></li>
+                <li><a href="../structure/index.html">前端数据结构</a></li>
+                <li class="active"><a href="../es/index.html">es6基础</a></li>
+                <li><a href="../echarts/index.html">echarts测试</a></li>
+                <li><a href="../d3Test/index.html">d3.js</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h2>es6基础和我在项目中总结的常用注意</h2>
+        <p>
+            下面介绍的都不是基础，如果想看基础，推荐文档：<a href="https://es6.ruanyifeng.com/#docs/set-map">https://es6.ruanyifeng.com/#docs/set-map</a>
+        </p>
+        <p>
+            这里介绍的都是es6中我觉得作用比较大的注意点，前端结构的常用以及主要知识点，相当于归纳总结
+        </p>
+    </div>
+    <div>
+        <div class="page-header">
+            <h3>set</h3>
+        </div>
+        <div class="well">
+            <p>
+                有关es6的，这个最好在在你对javascript有了一定的深入了解之后，再来学习es6会好一些，不然你也只是一脸闷逼，
+                这个我在后期会进行总结和归纳，下面我先列一些需要总结归纳的点
+            </p>
+            <ol>
+                <li>箭头函数</li>
+                <li>有关es6异步处理：promise，async函数等</li>
+                <li>set</li>
+                <li>...  符号运算</li>
+                <li>在具体项目结构中，可以使用到的es6</li>
+            </ol>
+        </div>
+    </div>
+
+    <div>
+        <div class="page-header">
+            <h3>箭头函数</h3>
+        </div>
+        <div class="well">
+            <p>
+                首先先来撸清楚箭头函数和普通函数写法上的区别
+            </p>
+            <pre>
+//无参数
+let fn = function(){
+    return 'helloWorld';
+}
+//简写为：
+let fn = ()=>{//但是没有参数时，括号不可以省略
+    return 'helloWorld';
+}
+//根据规则二，简写为：
+let fn = ()=>'helloWorld';
+
+
+
+//一个参数
+let fn = function(a){
+    return a;
+}
+//简写为：
+let fn = (a)=>{
+    return a;
+}
+//根据规则一，还可以简写为：
+let fn = a=>{
+    return a;
+}
+//根据规则二，还可以简写为：
+let fn = a=>a;
+
+
+
+//多个参数
+let fn = function(a,b){
+    return a+b;
+}
+//简写为：
+let fn = (a,b)=>{//多于一个参数，圆括号不可省略
+    return a+b;
+}
+//根据规则二，还可以简写为：
+let fn = (a,b)=>a+b;
+            </pre>
+        </div>
+    </div>
+</div>
+</body>
+<script src="./index.js" type="text/babel"></script>
+<script src="../../js/common/common.js"></script>
+</html>

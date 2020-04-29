@@ -1,0 +1,217 @@
+{
+  "name": "中国",
+  "children": [
+    {
+      "name": "浙江",
+      "children": [
+        {
+          "name": "杭州",
+          "value": 100,
+          "children": [
+            {
+              "name": "共有节点1",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian",
+                  "name": "3级别",
+                  "Grade": 3,
+                  "children": [
+                    {
+                      "id": "last",
+                      "name": "最终",
+                      "Grade": 2,
+                      "children": [
+                        {
+                          "id": "lastone",
+                          "name": "所有的源头",
+                          "Grade": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "新疆",
+      "children": [
+        {
+          "name": "乌鲁木齐",
+          "value": 100,
+          "children": [
+            {
+              "name": "共有节点2",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian",
+                  "name": "3级别",
+                  "Grade": 3,
+                  "children": [
+                    {
+                      "id": "last",
+                      "name": "最终",
+                      "Grade": 2,
+                      "children": [
+                        {
+                          "id": "lastone",
+                          "name": "所有的源头",
+                          "Grade": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "克拉玛依",
+          "children": [
+            {
+              "name": "共有节点3",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian2",
+                  "name": "test",
+                  "Grade": 3,
+                  "children": [
+                    {
+                      "id": "last",
+                      "name": "最终",
+                      "Grade": 2,
+                      "children": [
+                        {
+                          "id": "lastone",
+                          "name": "所有的源头",
+                          "Grade": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "吐鲁番",
+          "children": [
+            {
+              "name": "共有节点4",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian2",
+                  "name": "test",
+                  "Grade": 3,
+                  "children": [
+                    {
+                      "id": "last",
+                      "name": "最终",
+                      "Grade": 2,
+                      "children": [
+                        {
+                          "id": "lastone",
+                          "name": "所有的源头",
+                          "Grade": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "哈密",
+          "children": [
+            {
+              "name": "哈密1",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian2",
+                  "name": "test",
+                  "Grade": 3,
+                  "children": [
+                    {
+                      "id": "last",
+                      "name": "最终",
+                      "Grade": 2,
+                      "children": [
+                        {
+                          "id": "lastone",
+                          "name": "所有的源头",
+                          "Grade": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "哈密2",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian6",
+                  "name": "zuobian6",
+                  "Grade": 3,
+                  "children": [
+                    {
+                      "id": "lastTest",
+                      "name": "老司机2",
+                      "Grade": 2,
+                      "children": [
+                        {
+                          "id": "lastone",
+                          "name": "所有的源头",
+                          "Grade": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "哈密3",
+              "value": 100,
+              "children": [
+                {
+                  "id": "zuobian8",
+                  "name": "zuobian8",
+                  "Grade": 3,
+                  "children": [
+                    {
+                      "id": "teach3",
+                      "name": "老师3",
+                      "Grade": 2,
+                      "children": [
+                        {
+                          "id": "lastone",
+                          "name": "所有的源头",
+                          "Grade": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

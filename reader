@@ -1,0 +1,19 @@
+这里是用于学习以及复习的文档
+
+前期：html + css + bootstrap框架  这个就是当前现在的
+html，css，js基础和常用，es6基础和常用，es数据结构，前端数据结构设计
+
+文档结构：
+components文件为html页面报错，
+        compJs：公用html
+        其他：相关的html
+js：
+common：公用js，其中，使用的是用普通封装以及js闭包封装
+注意：这里需要注意的是，这里我没有去使用webpakc和npm工具，使用的是纯js引入方式
+所以，这里js调用封装js的方法无法使用impot，只能在同一个html都引入后，直接调用对应的方法
+
+js的写法这里主要是为了练习和教学，写的都是比较基础和复杂的
+
+
+后期：vue.js + vuex + vueRoute + vue-test-untils + jest
+

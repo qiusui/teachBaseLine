@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <!--引入echarts-->
+    <script src="../../js/incubator-echarts-4.7.0/dist/echarts.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--d3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!--引入课件需求js-->
+    <script src="./JavaScript/simple_hierarchical_data.js"></script>
+    <style>
+        line {
+            stroke: #ff6600;
+        }
+
+        text {
+            font-family: 'Yanone Kaffeesatz', sans-serif;
+            font-size: 16px;
+        }
+
+        #takeCtn5 circle {
+            fill: red;
+        }
+
+        #takeCtn5 line {
+            fill: none;
+            stroke: #ff6600;
+            stroke-width: 2px;
+        }
+
+        #takeCtn5 rect {
+            stroke: blue;
+            fill: none;
+        }
+
+        #takeCtn5 text {
+            font-family: sans-serif;
+        }
+
+        #takeCtn5 .continent {
+            font-size: 12px;
+            transform: rotate(-20deg) translate(0px, -8px);
+        }
+
+        #takeCtn5 .world {
+            font-size: 12px;
+            font-weight: bold;
+            transform: rotate(-90deg) translate(-20px, -10px);
+            fill: red;
+        }
+
+        #takeCtn5 .country {
+            font-size: 12px;
+            transform: rotate(0deg);
+        }
+
+        /*takeCtn6*/
+        #takeCtn6 circle {
+            fill: red;
+        }
+
+        #takeCtn6 line {
+            fill: none;
+            stroke: #ff6600;
+            stroke-width: 2px;
+        }
+
+        #takeCtn6 rect {
+            stroke: blue;
+            fill: none;
+        }
+
+        #takeCtn6 text {
+            font-family: sans-serif;
+        }
+
+        #takeCtn6 .continent {
+            font-size: 12px;
+            transform: rotate(-20deg) translate(0px, -8px);
+        }
+
+        #takeCtn6 .world {
+            font-size: 12px;
+            font-weight: bold;
+            transform: rotate(-90deg) translate(-20px, -10px);
+            fill: red;
+        }
+
+        #takeCtn6 .country {
+            font-size: 12px;
+            transform: rotate(0deg);
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div>
+        <pre>
+d3.hierarchy - 从给定的层次结构数据构造一个根节点并为各个节点指定深度等属性.
+
+node.sum - 评估和汇总定量值.
+
+d3.tree - 创建一个新的整齐(同深度节点对齐)的树布局.
+
+tree - 将指定的层次数据布局为整齐的树布局.
+
+tree.size - 设置布局尺寸.
+
+tree.separation - 设置两个相邻的节点之间的间距.
+
+node.descendants - 从当前节点开始返回其后代节点数组.
+
+node.links - 返回当前节点所在子树的所有边.
+
+d3.linkHorizontal 创建一个新的水平的 link 生成器.
+        </pre>
+        <p>参考文献；https://www.cnblogs.com/zhinian-/archive/2020/04/02/12616681.html</p>
+    </div>
+    <div id="takeCtn1" class="bigMarginTop"></div>
+    <div id="takeCtn2" class="bigMarginTop"></div>
+    <div id="takeCtn3" class="bigMarginTop"></div>
+    <div id="takeCtn4" class="bigMarginTop"></div>
+    <div id="takeCtn5" class="bigMarginTop"></div>
+    <div id="takeCtn6" class="bigMarginTop"></div>
+    <div id="takeCtn7" class="bigMarginTop"></div>
+</div>
+<script type="text/babel" src="./index.js"></script>
+</body>
+</html>

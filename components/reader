@@ -1,0 +1,13 @@
+compHtml：记录公共的html组件
+
+es：es6的基础学习
+
+iframe：iframe的具体测试html
+
+menu：菜单游戏
+
+structure：数据结构
+
+这里需要注意的是，为了便于区分以及日后查看，有关对应页面的js会直接保存在index.html的中
+或者直接放到对应的组件文件中，方便以后的查询以及修改
+

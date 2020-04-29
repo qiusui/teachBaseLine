@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>这里用于实现有关优化样式以及缩放</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <!--引入echarts-->
+    <script src="../../js/incubator-echarts-4.7.0/dist/echarts.min.js"></script>
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!--d3.js-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!--引入课件需求js-->
+    <script src="./JavaScript/simple_hierarchical_data.js"></script>
+    <style>
+        circle {
+            fill: blue;
+        }
+        .bifurcation {
+            fill: #41b2ba;
+            stroke: #41b2ba;
+        }
+        .river {
+            fill: none;
+            stroke: #41b2ba;
+            stroke-linecap: round;
+        }
+        rect {
+            stroke: blue;
+            fill: none;
+        }
+        text {
+            font-family: sans-serif;
+            fill: #4a774a;
+            text-anchor: end;
+        }
+        .node {
+            font-size: 12px;
+            transform: translate(0px,-20px);
+        }
+        .leaf {
+            font-size: 12px;
+            transform: translate(-6px,-12px);
+            text-anchor: middle;
+        }
+        .root {
+            font-size: 16px;
+            font-weight: bold;
+            transform: translate(0,16px);
+        }
+    </style>
+</head>
+<body>
+<h3>这里用于实现有关优化样式以及缩放</h3>
+<div id="svg1"></div>
+<script>
+    const height = 800;
+    const width = 1000;
+
+    const link = d3.linkHorizontal()
+        .x(function(d) { return -d.y; })
+        .y(function(d) { return d.x; });
+
+    const result = {
+        "name": "太空",
+        "children": [
+            {
+                "name": "太空4",
+            },
+            {
+                "name": "太空3",
+            },
+            {
+                "name": "太空2",
+            },
+            {
+                "name": "太空1",
+            }
+        ]
+    };
+
+    const root = d3.hierarchy(result);
+
+    // tree
+    const tree = d3.tree()
+        .size([height - 100, width - 150]); // sideways
+    const treeData = tree(root.sort((a,b) => b.height - a.height));
+
+    draw(treeData);
+
+    function draw(data) {
+        const svg = d3.select("body").append("svg").attr("height", height).attr("width", width);
+        const chart = svg.append("g").attr("transform", `translate(${width - 25},50)`);
+
+        drawLinks(chart.append("g").attr("class", "links"), data.links());
+        drawNodes(chart.append("g").attr("class", "nodes"), data.descendants());
+
+    }
+
+    function drawNodes(g, data) {
+        const node = g.selectAll("g")
+            .data(data)
+            .enter()
+            .append('g')
+            .attr('transform', function(d) {
+                return 'translate(' + [-d.y, d.x] + ')';
+            });
+
+        node.append("text")
+            .attr('x', 5)
+            .attr('y', 5)
+            .text(d => d.data.name)
+            .attr("class", function(d) {
+                if(d.height > 0 && d.depth != 0) {
+                    return "node";
+                } else if (d.depth == 0){
+                    return "root";
+                } else {
+                    return "leaf";
+                }
+            });
+    }
+
+    function drawLinks(g, data) {
+        g.selectAll("path.river")
+            .data(data)
+            .enter()
+            .append('path')
+            .attr("d", link)
+            .attr("class", "river")
+            .attr("stroke-width", 1);
+    }
+
+</script>
+</body>
+</html>
