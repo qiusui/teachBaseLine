@@ -17,3 +17,12 @@ js的写法这里主要是为了练习和教学，写的都是比较基础和复
 
 后期：vue.js + vuex + vueRoute + vue-test-untils + jest
 
+
+
+注意：
+当前静态文件访问地址：
+
+https://qiulianying.github.io/teachBaseLine/index.html
+qiulianying：是用户名
+teachBaseLine：项目名称
+目前在gitHub上已经配置好了，以后使用这种方式可以直接访问静态页面

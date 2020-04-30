@@ -11,5 +11,6 @@ let init = function () {
 };
 
 window.onload = function () {
+    //获取css
     this.init();
 };

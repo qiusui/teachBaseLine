@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
     <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="../../js/common/common.js"></script>
 </head>
 <body>
 <!-- Fixed navbar -->
@@ -54,7 +55,7 @@
                 <li>箭头函数</li>
                 <li>有关es6异步处理：promise，async函数等</li>
                 <li>set</li>
-                <li>...  符号运算</li>
+                <li>... 符号运算</li>
                 <li>在具体项目结构中，可以使用到的es6</li>
             </ol>
         </div>
@@ -110,10 +111,107 @@ let fn = (a,b)=>{//多于一个参数，圆括号不可省略
 //根据规则二，还可以简写为：
 let fn = (a,b)=>a+b;
             </pre>
+            <p>Promise 新建后就会立即执行。</p>
+            <pre>
+let promise = new Promise(function(resolve, reject) {
+  console.log('Promise');
+  resolve();
+});
+
+promise.then(function() {
+  console.log('resolved.');
+});
+
+console.log('Hi!');
+
+// Promise
+// Hi!
+// resolved
+            </pre>
         </div>
+    </div>
+
+    <div>
+        <div class="page-header">
+            <h3>promise</h3>
+        </div>
+        <div class="well">
+            <p>
+                所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的
+                API，各种异步操作都可以用同样的方法进行处理。
+            </p>
+            <pre>
+const promise = new Promise(function(resolve, reject) {
+  // ... some code
+
+  if (/* 异步操作成功 */){
+    resolve(value);
+  } else {
+    reject(error);
+  }
+});
+            </pre>
+            <p class="red">
+                Promise实例生成以后，可以用then方法分别指定resolved状态和rejected状态的回调函数。
+                感觉有关平时使用axios的then使用机制就是类似这样的
+            </p>
+            <p>
+                resolve函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从 pending 变为
+                resolved），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；reject函数的作用是，将Promise对象的状态从“未完成”变为“失败”（即从 pending 变为
+                rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
+            </p>
+            <pre>
+promise.then(function(value) {
+  // success
+}, function(error) {
+  // failure
+});
+            </pre>
+            <pre>
+//测试es6中promise对象
+let testPromise = function () {
+    function timeout(ms) {
+        return new Promise((resolve, reject) => {
+            setTimeout(resolve, ms , '异步结束')
+        })
+    }
+
+    timeout(3000).then(value => {
+        document.getElementById('testPromise').innerText = '3秒后得到内容：' + value
+    })
+};
+            </pre>
+            <div>执行情况：<span id="testPromise"></span></div>
+            <p>下面是对执行异步情况的一个反馈：创建的promise会被立即执行，然后成功之后，才是执行异步</p>
+            <pre>
+let promise = new Promise(function(resolve, reject) {
+  console.log('Promise');
+  resolve();
+});
+
+promise.then(function() {
+  console.log('resolved.');
+});
+
+console.log('Hi!');
+
+// Promise
+// Hi!
+// resolved
+            </pre>
+        </div>
+    </div>
+
+    <div>
+        <div class="page-header">
+            <h3>隐藏的book</h3>
+        </div>
+        <div style="margin-bottom: 20px">
+            <button type="button" class="btn btn-primary" id="myModal">点击查看</button>
+        </div>
+        <div class="well" id="bookTake" style="display: none"></div>
     </div>
 </div>
 </body>
 <script src="./index.js" type="text/babel"></script>
-<script src="../../js/common/common.js"></script>
 </html>
