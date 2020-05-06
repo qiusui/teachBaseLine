@@ -1,3 +1,17 @@
+let book = function () {
+    let flage = false;
+    document.getElementById('myModal').addEventListener('click', clickCtn);
+
+    function clickCtn() {
+        if (!flage) {
+            document.getElementById('bookTake').setAttribute('style', 'display: block')
+        } else {
+            document.getElementById('bookTake').setAttribute('style', 'display: none')
+        }
+        flage = !flage;
+    }
+};
+
 //测试es6的set方法
 let init = function () {
 
@@ -46,17 +60,22 @@ let getJSON = function (url) {
     return promise;
 };
 
-let book = function () {
-    let flage = false;
-    document.getElementById('myModal').addEventListener('click', clickCtn);
-    function clickCtn() {
-        if (!flage) {
-            document.getElementById('bookTake').setAttribute('style', 'display: block')
-        } else {
-            document.getElementById('bookTake').setAttribute('style', 'display: none')
-        }
-        flage = !flage;
-    }
+//测试promise
+//console都注释掉了，免得影响
+let testPromise2 = function () {
+    const p1 = new Promise(function (resolve, reject) {
+        //console.log('这里是p1');
+        resolve();
+    });
+
+    const p2 = new Promise(function (resolve, reject) {
+        //console.log('这里是p2');
+        resolve(p1);
+    });
+
+    p2.then(() => {
+        //console.log('这里是p2已经执行返回了')
+    })
 };
 
 window.onload = function () {
@@ -73,6 +92,8 @@ window.onload = function () {
     }, function (error) {
         console.error('出错了', error);
     });
+    //测试promise中resolve其他promise的情况
+    this.testPromise2();
 
 
 };

@@ -53,7 +53,7 @@
             </p>
             <ol>
                 <li>箭头函数</li>
-                <li>有关es6异步处理：promise，async函数等</li>
+                <li class="red">有关es6异步处理(重点和难点)：promise，async函数等</li>
                 <li>set</li>
                 <li>... 符号运算</li>
                 <li>在具体项目结构中，可以使用到的es6</li>
@@ -133,9 +133,13 @@ console.log('Hi!');
 
     <div>
         <div class="page-header">
-            <h3>promise</h3>
+            <h3>Promise 对象</h3>
         </div>
         <div class="well">
+            <p class="red">
+                首先：对于异步处理的最多的就是接口，不过现在，接口的情况大部分都是通过封装axios来解决了，这样也比较快，
+                但是如果说在非接口的js函数调用的时候存在异步问题，那么，es6中的这类语法就是最好的解决方法
+            </p>
             <p>
                 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的
                 API，各种异步操作都可以用同样的方法进行处理。
@@ -199,6 +203,49 @@ console.log('Hi!');
 // Hi!
 // resolved
             </pre>
+            <p>
+                测试promise中resolve其他promise的情况：注意：这里p2的resolve能否回调执行出来，取决于p1的resolve什么时候出来
+            </p>
+            <p class="red">
+                那也可以理解为，p2的回调的状态，被p1的状态取代和决定
+            </p>
+            <pre>
+const p1 = new Promise(function (resolve, reject) {
+    console.log('这里是p1');
+    resolve();
+});
+
+const p2 = new Promise(function (resolve, reject) {
+    console.log('这里是p2');
+    resolve(p1);
+});
+
+p2.then(() => {
+    console.log('这里是p2已经执行返回了')
+})
+//这里是p1
+//这里是p2
+//这里是p2已经执行返回了
+            </pre>
+            <div class="marginTop">
+                <h3>对于promise我个人的总结如下</h3>
+                <ol class="red">
+                    <li>promise对象创建之后立即执行</li>
+                    <li>promise通过resolve和reject来回调告诉执行情况</li>
+                    <li>回调函数可以通过then()方法来处理</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="page-header">
+            <h3>async 函数</h3>
+        </div>
+        <div class="well">
+            <p>
+                首先先来撸清楚箭头函数和普通函数写法上的区别
+            </p>
         </div>
     </div>
 
