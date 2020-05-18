@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/common/common.js"></script>
+</head>
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">前端基础学习课件</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../index.html">首页基础知识</a></li>
+                <li><a href="../css/index.html">深入html+css</a></li>
+                <li><a href="../javascript/index.html">js深入</a></li>
+                <li class="active"><a>https</a></li>
+                <li><a href="../structure/index.html">前端数据结构</a></li>
+                <li><a href="../es/index.html">es6基础</a></li>
+                <li><a href="../typescript/index.html">typescript基础</a></li>
+                <li><a href="../echarts/index.html">echarts测试</a></li>
+                <li><a href="../d3Test/index.html">d3.js</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h2>前端的基础知识和概念</h2>
+        <p>这里主要是针对缓存，页面加载，常用优化问题，ajax等知识进行进一步的梳理和讲解
+    </div>
+
+    <!--缓存-->
+    <div>
+        <div class="page-header">
+            <h3 class="red">WebStorage 和 Cookie</h3>
+        </div>
+        <div class="well">
+            <p>先来介绍一下这两个的不一样的地方，然后再一个个进行分析</p>
+            <p>
+                一：存储空间不同 <br>
+                1、web storage能提供5M的存储空间（不同浏览器不同） > cookie提供4k的空间 <br>
+                2、web storage每个域（包括子域）都有独立的存储空间，各个存储空间是完全独立的，因此不会造成数据混淆 <br>
+            </p>
+            <p>
+                二：与服务端交互 <br>
+                1、web storage中的数据仅仅是本地存储，不会和服务器发生任何交互，但是cookie可以与服务器进行交互 <br>
+                2、cookie的内容会随着请求一并发送到服务器（每请求一个新的页面时，cookie都会被发送过去，无形中造成带宽浪费） <br>
+            </p>
+            <p>
+                三：使用上不一致 <br>
+                Web Storage拥有setItem,getItem,removeItem,clear等方法，不像cookie需要前端开发者自己封装setCookie,getCookie <br>
+            </p>
+            <p class="red">
+                四：成分以及存活 <br>
+                cookie在关闭浏览器之后，会自动删除，除非设置存活时间 <br>
+                webStorage： 下面 <br>
+                localStorage：长期保存，除非手动删除； <br>
+                sessionStorage：和localStorage一样，但是关闭浏览器的时候回自动删除 <br>
+            </p>
+
+            <div class="marginTop">
+                <h3 class="red">Cookie的使用以及对应的使用情况</h3>
+                <a href="https://www.runoob.com/js/js-cookies.html">https://www.runoob.com/js/js-cookies.html</a>
+                <ol>
+                    <li>记录信息，在下次来页面的时候可以获取</li>
+                    <li>保持登录</li>
+                    <li>保持上次查看的页面</li>
+                    <li>浏览计数</li>
+                    <li>广告追踪</li>
+                    <li>购物车的状态保持</li>
+                </ol>
+
+                <p>
+                    对于cookie来说，获取和修改创建对应的cookie非常简单，都是通过document.cookie <br>
+                    读取：let ax = document.cookie； <br>
+                    修改和创建都是一样的：document.cookie = ''; <br>
+                    //删除 cookie 非常简单。您只需要设置 expires 参数为以前的时间即可，如下所示，设置为 Thu, 01 Jan 1970 00:00:00 GMT: <br>
+                    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT"; <br>
+                    <span class="red">注意，当您删除时不必指定 cookie 的值。</span>
+                </p>
+
+                <p>
+                    这里给一个简单的案例，输入用户名，如果用户之前有输入过，就显示你之前输入用户名
+                </p>
+                <p id="getCookie" style="color: #ff6600"></p>
+                <pre>
+        //封装cookie  创建一个函数用于存储访问者的名字
+        function setCookie(cname, cvalue, exdays) {
+            //cookie 的名称为 cname，cookie 的值为 cvalue，并设置了 cookie 的过期时间 expires
+            let d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            let expires = 'expires' + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+
+        //获取 cookie 值的函数
+        function getCookie(cname) {
+            let name = cname + '=';
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i].trim();
+                if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+            }
+            return '';
+        }
+
+        //检测cookie是否创建s
+        function checkCookie() {
+            let user = getCookie('username');
+            if (user !== '') {
+                document.getElementById('getCookie').innerText = '用户名：' + user;
+            } else {
+                user = prompt("请输入你的名字:","");
+                if (user !=="" && user !== null){
+                    setCookie("username",user,30);
+                }
+            }
+        }
+        checkCookie();
+                </pre>
+
+                <div class="marginTop">
+                    <h3 class="red">webStorage</h3>
+                    <p>
+                        webStorage分为：sessionStorage（会话存储）和localStorage（本地存储）
+                    </p>
+                    <p>
+                        localStorage：不会被删除，除非手动或者使用clear()清理掉 <br>
+                        sessionStorage：关闭浏览器的时候就会被清理， <br>
+                        那么我们首先来介绍一波sessionStorage的使用方式
+                    </p>
+                    <p class="red">
+                        sessionStorage：这个在之前天地图vue.js登录中也经常会使用，用于记录用户信息，获取，确定属于的类型；<br>
+                        并且经常用于对登录情况的信息记录以及信息判断；简单的来说我们可以这样记忆：localStorage和sessionStorage <br>
+                        的使用和方法基本一样，只有在关闭浏览器保存的时候，是不一样的，localStorage不会被删除，但是sessionStorage会
+                    </p>
+                    <p>
+                        语法：window.sessionStorage <br>
+                        sessionStorage.setItem("key", "value"); //保存 <br>
+                        var lastname = sessionStorage.getItem("key"); //读取 <br>
+                        sessionStorage.removeItem("key"); //删除指定 <br>
+                        sessionStorage.clear() //删除全部 <br>
+                    </p>
+                    <div>
+                        <button type="button" class="btn btn-default" id="sessionClick">点我啊</button>
+                        <div id="result"></div>
+                        <p>点击按钮查看数字变化。</p>
+                        <p>关闭浏览器并重新打开，看看数值是否重置了。</p>
+                    </div>
+                    <pre class="marginTop">
+        //直接判断是否有点击
+        window.localStorage.setItem('girl:', '大桥未久');
+        if (window.sessionStorage.clickcount) {
+            document.getElementById("result").innerHTML = "你在按钮上已经点击了 " + sessionStorage.clickcount + " 次。";
+        }
+        document.getElementById('sessionClick').onclick = function () {
+            if (typeof Storage !== 'undefined') {
+                if (sessionStorage.clickcount) {
+                    sessionStorage.clickcount = Number(sessionStorage.clickcount) + 1;
+                } else {
+                    sessionStorage.clickcount = 1;
+                }
+                document.getElementById("result").innerHTML = "你在按钮上已经点击了 " + sessionStorage.clickcount + " 次。";
+            } else {
+                document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+            }
+        };
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--http请求-->
+    <div>
+        <div class="page-header">
+            <h3 class="red">http请求</h3>
+        </div>
+        <div class="well">
+            <p>
+                HTTP请求方法并不是只有GET和POST，只是最常用的。据RFC2616标准（现行的HTTP/1.1）得知，通常有以下8种方法：OPTIONS、GET、HEAD、POST、PUT、DELETE、TRACE和CONNECT
+            </p>
+            <p>
+                但是这里，我就只来讲解目前用到过以及常用的几个：
+                <span class="red">GET、POST、PUT、DELETE、OPTIONS、HEAD</span>
+            </p>
+            <ol class="marginTop">
+                <li>
+                    <a href="http://120.40.102.239:9650/resourcemgr/#/index/home">可以去这个案例网站上看看get和post等接口的不同</a>
+                    <h4>GET</h4>
+                    <p class="red">get请求多用于对数据的获取，查询等功能</p>
+                    <p>
+                        GET请求请提交的数据放置在HTTP请求协议头中，GET方法通过URL请求来传递用户的输入，GET方式的提交你需要用Request.QueryString来取得变量的值。
+                    </p>
+                    <p class="red">
+                        1、特点在于具体的请求参数是作为url中传递过去，可能会有很长的url <br>
+                        2、可能会带来安全性的问题，数据被浏览器缓存 <br>
+                        3、会有url限制 <br>
+                    </p>
+                </li>
+                <li>
+                    <h4>POST</h4>
+                    <p class="red">post请求多用于进行处理请求（添加，修改，删除）</p>
+                    <p>POST方式提交时，你必须通过Request.Form来访问提交的内容</p>
+                </li>
+                <li>
+                    <h4 class="red">POST和GET对比分析</h4>
+                    <p class="red">
+                        （1）post更安全（不会作为url的一部分，不会被缓存、保存在服务器日志、以及浏览器浏览记录中） <br>
+                        （2）post发送的数据更大（get有url长度限制） <br>
+                        （3）post能发送更多的数据类型（get只能发送ASCII字符） <br>
+                        （4）post比get慢 <br>
+                        （5）post用于修改和写入数据，get一般用于搜索排序和筛选之类的操作 <br>
+                    </p>
+                    <p>
+                        对于为什么post比get慢，这里可以详细去看 <a href="https://www.jianshu.com/p/354f9870bb2a">详解</a>，<br>
+                        这里我简要介绍一下， <br>
+                        1、因为get是直接参数传递过去了，而post需要在等到服务器返回握手相应后，才传递数据过去 <br>
+                        2、get会将数据缓存起来，而post不会，所以get下次传递一样的数据会直接获取到，post是重新相应
+                    </p>
+                </li>
+                <li>
+                    <h4>HEAD</h4>
+                    <p>类似于get请求，只不过返回的响应中没有具体的内容，用于获取报头</p>
+                </li>
+                <li>
+                    <h4>PUT</h4>
+                    <p>从客户端向服务器传送的数据取代指定的文档的内容。</p>
+                </li>
+                <li>
+                    <h4 class="red">
+                        DELETE
+                    </h4>
+                    <p class="red">
+                        请求服务器删除指定的页面。
+                    </p>
+                    <p>
+                        DELETE请求一般返回3种码 <br>
+                        200（OK）——删除成功，同时返回已经删除的资源。 <br>
+                        202（Accepted）——删除请求已经接受，但没有被立即执行（资源也许已经被转移到了待删除区域）。 <br>
+                        204（No Content）——删除请求已经被执行，但是没有返回资源（也许是请求删除不存在的资源造成的 <br>
+                    </p>
+                </li>
+                <li>
+                    <h4 class="red">OPTIONS</h4>
+                    <p>
+                        允许客户端查看服务器的性能。
+                    </p>
+                    <p>
+                        例如：AJAX进行跨域请求时的预检，需要向另外一个域名的资源发送一个HTTP OPTIONS请求头，用以判断实际发送的请求是否安全。
+                    </p>
+                    <p class="red">
+                        简单的来说，就是在跨域访问其他的服务平台的时候，会先发送options请求去试探服务器是否允许跨域，详细的可以查看<a
+                            href="http://www.ruanyifeng.com/blog/2016/04/cors.html">跨域问题，先留链接，有空也好好看看</a>，和
+                        <a href="https://segmentfault.com/q/1010000012673414">https://segmentfault.com/q/1010000012673414</a>
+                    </p>
+                </li>
+            </ol>
+
+        </div>
+    </div>
+
+    <!--跨域问题-->
+    <div>
+        <div class="page-header">
+            <h3 class="red">http请求</h3>
+        </div>
+        <div class="well">
+            <a href="http://www.ruanyifeng.com/blog/2016/04/cors.html">跨域问题，先留链接，有空也好好看看</a>
+        </div>
+    </div>
+
+    <!--前端优化问题-->
+    <div>
+        <div class="page-header">
+            <h3>前端优化问题</h3>
+        </div>
+        <div class="well">
+            <a href="https://www.cnblogs.com/shenxiaolin/p/5390237.html">减少前端页面加载</a>
+        </div>
+    </div>
+</div>
+</body>
+<script src="./index.js" type="text/babel"></script>
+</html>

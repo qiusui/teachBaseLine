@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>typescript基础</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="../../js/common/common.js"></script>
+</head>
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">前端基础学习课件</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../index.html">首页基础知识</a></li>
+                <li><a href="../css/index.html">深入html+css</a></li>
+                <li><a href="../javascript/index.html">js深入</a></li>
+                <li><a href="../structure/index.html">前端数据结构</a></li>
+                <li><a href="../es/index.html">es6基础</a></li>
+                <li class="active"><a href="../typescript/index.html">typescript基础</a></li>
+                <li><a href="../echarts/index.html">echarts测试</a></li>
+                <li><a href="../d3Test/index.html">d3.js</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h2>常用注意</h2>
+        <p>
+            下面介绍的都不是基础，如果想看基础，推荐文档：<a href="https://www.tslang.cn/">https://www.tslang.cn/  ts的官网</a>
+        </p>
+        <p>
+            这里介绍的都是ts中我觉得作用比较大的注意点，前端结构的常用以及主要知识点，相当于归纳总结
+        </p>
+        <p>
+            所以，在学习ts之前，确定已经对js以及es6有了一定的了解
+        </p>
+        <p>参考文献：<a href="https://ts.xcatliu.com/">阮一峰的ts入门教程</a></p>
+        <p>
+            ts的优点： <br>
+            针对原生js的缺点进行了强化，例如弱类型以及js没有命名空间的一些不足的地方 <br>
+            类型系统实际上是最好的文档，大部分的函数看看类型的定义就可以知道如何使用了 <br>
+            可以在编译阶段就发现大部分错误，这总比在运行时候出错好 <br>
+            增强了编辑器和 IDE 的功能，包括代码补全、接口提示、跳转到定义、重构等 <br>
+        </p>
+        <p>
+            ts的一些缺点： <br>
+            有一定的学习成本，需要理解接口（Interfaces）、泛型（Generics）、类（Classes）、枚举类型（Enums）等前端工程师可能不是很熟悉的概念 <br>
+            短期可能会增加一些开发成本，毕竟要多写一些类型的定义，不过对于一个需要长期维护的项目，TypeScript 能够减少其维护成本 <br>
+            集成到构建流程需要一些工作量 <br>
+            可能和一些库结合的不是很完美 <br>
+        </p>
+    </div>
+    <div>
+        <div class="page-header">
+            <h3>对象的类型——接口Interfaces</h3>
+        </div>
+        <div class="well">
+            <p>
+                TypeScript 中的接口是一个非常灵活的概念，除了可用于对类的一部分行为进行抽象以外，也常用于对「对象的形状（Shape）」进行描述。
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+<script src="./index.js" type="text/javascript"></script>
+</html>

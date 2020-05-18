@@ -44,7 +44,7 @@
     </div>
     <div>
         <div class="page-header">
-            <h3>set</h3>
+            <h3>es6</h3>
         </div>
         <div class="well">
             <p>
@@ -57,6 +57,7 @@
                 <li>set</li>
                 <li>... 符号运算</li>
                 <li>在具体项目结构中，可以使用到的es6</li>
+                <li class="red">重点：javascript的异步编程机制</li>
             </ol>
         </div>
     </div>
@@ -227,6 +228,30 @@ p2.then(() => {
 //这里是p2
 //这里是p2已经执行返回了
             </pre>
+
+            <div class="marginTop">
+                <pre>
+promise
+.then(result => {···})      //then方法的第一个参数是resolved状态的回调函数，第二个参数（可选）是rejected状态的回调函数
+.catch(error => {···})      //Promise.prototype.catch()方法是.then(null, rejection)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。
+.finally(() => {···});      //finally()方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。
+                </pre>
+                <p class="red">
+                    finally方法的回调函数不接受任何参数，所以我们不知道是执行成功还是失败，但是他能
+                    确保在执行之后，返回执行的情况
+                </p>
+            </div>
+
+            <div class="marginTop">
+                <h4>
+                    Promise.all()
+                </h4>
+                <p>
+                    Promise.all()方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
+                </p>
+            </div>
+
+
             <div class="marginTop">
                 <h3>对于promise我个人的总结如下</h3>
                 <ol class="red">
@@ -240,12 +265,301 @@ p2.then(() => {
 
     <div>
         <div class="page-header">
+            <h3>Generator (生成器)</h3>
+        </div>
+        <div class="well">
+            <p>
+                Generator 函数是 ES6 提供的一种异步编程解决方案
+            </p>
+            <p>
+                Generator 函数有多种理解角度。语法上，首先可以把它理解成，Generator 函数是一个状态机，封装了多个内部状态。
+                <br>
+                执行 Generator 函数会返回一个遍历器对象，也就是说，Generator 函数除了状态机，还是一个遍历器对象生成函数。返回的遍历器对象，可以依次遍历 Generator 函数内部的每一个状态。
+            </p>
+            <pre>
+function * helloWorldGenerator() {       //Generator函数的写法使用*代替，这个就是一个非常简单的Generator函数
+  yield 'hello';
+  yield 'world';                        //yield表达式是暂停执行的标记，而next方法可以恢复执行
+  return 'ending';
+}
+var hw = helloWorldGenerator();         //函数有三个状态：hello，world 和 return 语句
+            </pre>
+            <p class="marginTop">下面是一个简单的使用</p>
+            <pre>
+function * gen(x) {
+    let y = yield x + 2;
+    return y
+}
+
+let g = gen(1);
+g.next() // { value: 3, done: false }  done：flase标识里面的遍历还没有完成
+g.next() // { value: undefined, done: true }    done：true表示遍历已经完成
+            </pre>
+
+            <p class="marginTop">
+                异步任务的封装
+            </p>
+            <pre>
+//这里封装了一个gen方法调用接口
+var fetch = require('node-fetch');
+function* gen(){
+  var url = 'https://api.github.com/users/github';      //这个应该是通过github写的一个线上的函数
+  var result = yield fetch(url);
+  console.log(result.bio);
+}
+
+
+//执行接口调用
+var g = gen();
+var result = g.next();
+result.value.then(function(data){
+  return data.json();
+}).then(function(data){
+  g.next(data);
+});
+            </pre>
+
+            <p class="marginTop">比如依次读取两个文件</p>
+            <pre>
+const fs = require('fs');
+const readFile = function (fileName) {
+    return new Promise(function (resolve, reject) {
+        fs.readFile(fileName, function (error, data) {
+            if (error) return reject(error);
+            resolve(data);
+        });
+    })
+};
+const gen = function * () {
+    const f1 = yield readFile('/etc/fstab');
+    const f2 = yield readFile('/etc/shells');
+    console.log(f1.toString());
+    console.log(f2.toString());
+};
+gen.next()          //先调用第一个
+gen.next()          //调用第二个
+            </pre>
+        </div>
+    </div>
+
+    <!--async await异步-->
+    <div>
+        <div class="page-header">
             <h3>async 函数</h3>
         </div>
         <div class="well">
             <p>
-                首先先来撸清楚箭头函数和普通函数写法上的区别
+                对于async的函数就更加便于理解，通过async执行，await等待
             </p>
+            <p>
+                <span class="red">async函数返回一个 Promise 对象，可以使用then方法添加回调函数</span>。
+                当函数执行的时候，一旦遇到await就会先返回，等到异步操作完成，再接着执行函数体内后面的语句。
+            </p>
+            <pre>
+async function getStockPriceByName(name) {
+  const symbol = await getStockSymbol(name);
+  const stockPrice = await getStockPrice(symbol);
+  return stockPrice;
+}
+
+getStockPriceByName('goog').then(function (result) {
+  console.log(result);
+});
+            </pre>
+            <p class="marginTop">案例</p>
+            <pre>
+//测试async
+function timeout(ms) {
+    return new Promise((resolve, reject) => {
+        console.log('先执行这个');       //先执行
+        setTimeout(resolve, ms);        //执行完毕resolve返回
+    })
+}
+
+async function asyncPrint(value, ms) {
+    await timeout(ms);      //等待timeout方法执行完毕
+    console.log(value);
+}
+
+asyncPrint('等待执行', 3000);
+            </pre>
+            <p class="marginTop red">async函数的语法规则总体上比较简单，难点是错误处理机制。</p>
+            <pre>
+async function f() {                //这里async相当于是返回一个promise对象，可以通过then方法获取调用
+  return 'hello world';
+}
+f().then(v => console.log(v))       //只有等async中执行结束，才会执行then方法 "hello world"
+
+async function f() {
+  throw new Error('出错了');
+}
+f().then(
+  v => console.log(v),
+  e => console.log(e)
+)       // Error: 出错了
+            </pre>
+            <p class="marginTop red">async和try catch的使用</p>
+            <p>通过try中执行await的异步，如果出现错误，通过catch返回错误执行或者其他</p>
+            <pre>
+async function main() {
+  try {
+    const val1 = await firstStep();                 //如果有多个await命令，可以统一放在try...catch结构中。
+    const val2 = await secondStep(val1);
+    const val3 = await thirdStep(val1, val2);
+    console.log('Final: ', val3);
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+            </pre>
+
+        </div>
+    </div>
+
+    <!--class函数的基本知识-->
+    <div>
+        <div class="page-header">
+            <h3>Class 的基本语法</h3>
+        </div>
+        <div class="well">
+            <p>
+                对于class的用法，这个在es6中是一个非常常见的用法，在目前的react中，
+                通过class的方式继承与创建也是最常用的方法
+            </p>
+            <p>
+                如果不使用es6的class，是这样定义修改方法中的情况的
+            </p>
+            <pre>
+function Point(x, y) {
+    this.x = x;
+    this.y = y;
+}
+Point.prototype.toString = function () {        //通过prototype方式去修改方法内部
+    return '(' + this.x + ', ' + this.y + ')';
+};
+let p = new Point(1, 2);
+console.log(p.toString());      //输出(1,2)
+            </pre>
+            <p>如果通过class可以这样转化</p>
+            <pre>
+class Point {
+    constructor(x, y) {         //constructor 属性返回对创建此对象的数组函数的引用。
+        this.x = x;             //this关键字则代表实例对象
+        this.y = y;
+    }
+    toString() {
+        return '(' + this.x + ', ' + this.y + ')';
+    }
+}
+let p = new Point(1,2);
+console.log(p.toString());
+            </pre>
+            <p class="marginTop">取值函数（getter）和存值函数（setter）</p>
+            <pre>
+class MyClass {
+    constructor() {
+    }
+    get prop() {
+        return 'getter';
+    }
+    set prop(value) {
+        console.log('setter: '+value);
+    }
+}
+let inst = new MyClass();
+inst.prop = 123;// setter: 123
+console.log(inst.prop);//getter
+            </pre>
+            <P CLASS="marginTop red">
+                静态方法
+            </P>
+            <p>
+                类相当于实例的原型，所有在类中定义的方法，都会被实例继承。如果在一个方法前，加上 <span class="red">static</span>
+                关键字，<span class="red">就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”</span>
+            </p>
+            <p>
+                简单来说，静态方法就是将其变成了一个类似不是方法的东西，
+                <span class="red">只能在内部使用，或者父类的可以被子类继承，但是无法通过new直接继承</span>
+            </p>
+            <pre>
+//测试class的情况
+class Foo {
+    static classMethod() {
+        console.log('执行classMethod')
+    }
+    test() {
+        this.classMethod;               //执行classMethod
+        console.log('执行test');
+    }
+}
+
+Foo.classMethod(); // '执行classMethod'
+var foo = new Foo();
+foo.test();        //执行test
+foo.classMethod();//报错  // TypeError: foo.classMethod is not a function
+            </pre>
+
+            <p class="marginTop red">有关class中this的指向问题</p>
+            <p>有关js的指向方面，在之前javascript中有比较详细的介绍，但是，在es6中，this的指向实际上也存在问题，例如在class中this指向</p>
+            <pre>
+class Logger {
+    printName(name = 'there') {
+        this.print(`Hello ${name}`);
+    }
+    print(text) {
+        console.log(text);
+    }
+}
+const logger = new Logger();
+logger.printName();             //Hello there
+const { print, printName } = logger;       //方法提取出来单独使用
+print(666);
+printName();
+//但是，如果将这个方法提取出来单独使用，this会指向该方法运行时所在的环境
+//（由于 class 内部是严格模式，所以 this 实际指向的是undefined），从而导致找不到print方法而报错。
+            </pre>
+            <p class="red">那么对于上面的this的指向有两个办法</p>
+            <p>1、经常使用的bind(this)，这个在react中经常使用</p>
+            <p>2、使用箭头函数</p>
+            <pre>
+//1.通过bind(this)解决
+class Logger {
+    constructor() {     //是一种用于创建和初始化class创建的对象的特殊方法
+        this.printName = this.printName.bind(this);     //通过bind将这个方法的this指向当前的logger这个this
+    }
+}
+            </pre>
+            <p>我们知道箭头函数中的this总是指向定义时所在的对象</p>
+        </div>
+    </div>
+
+    <!--class函数继承-->
+    <div>
+        <div class="page-header">
+            <h3 class="red">class函数继承</h3>
+        </div>
+        <div class="well">
+            <p>对于es6来说，class的extends方法通过继承来实现具体操作</p>
+            <pre>
+class Point {
+    constructor() {
+        this.x  = 6;
+        this.y = 60;
+    }
+}
+class ColorPoint extends Point {
+    constructor(x, y) {
+        super(x, y)     //super，获取  // 调用父类的constructor(x, y)
+    }
+    toString() {
+        console.log(this.x);
+    }
+}
+let ax = new ColorPoint();
+ax.toString();
+            </pre>
+            <p>在react中，很多具体的组件的写法，就是通过有通过继承，例如通过组件继承react的具体属性</p>
         </div>
     </div>
 

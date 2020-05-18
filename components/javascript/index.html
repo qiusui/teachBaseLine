@@ -37,8 +37,38 @@
     <div>
         <div class="well">
             <p>
-                js这一块，我不讲基础，主要都是js的总结以及经常适用到东西，需要对js做到总结的应该有
+                js这一块，我不讲基础，主要都是js的总结以及经常适用到东西，需要对js做到总结的应该有，而且针对js的优化，就有了
+                后期我们熟系而且推荐掌握的<span class="red">jquery，es6，typescript</span>
             </p>
+            <p class="red">
+                我认为的关系(>为包括)：typescript > es6 > js => jquery(js的封装升级)，所以如你你熟系es6的话，对于typescript
+                也能非常迅速的理解，他们在类型定义，封装等很多思想上比较接近，但是，对于typescript+框架的坑那就只能靠自己了....
+            </p>
+            <p>首先我们要知道js的一些属性以及对应的特性</p>
+            <p>
+                js的两个比较大的<span class="red">特点或者说弱点</span> ：<br>
+                <span class="red">1、弱类型</span><br>
+                <span class="red">2、没有命名空间</span>
+            </p>
+            <pre>
+                //js的弱类型：就是可以非常方便的改变你定义的变量的类型结构
+                var ax = 11111;
+                console.log(typeof ax)      //number
+
+                ax = '11111'
+                console.log(typeof ax)      //string
+
+                ax = true
+                console.log(typeof ax)      //boolean
+            </pre>
+            <p>
+                首先是弱类型，这个在做小型项目的时候非常实用，但是做大型项目时候，
+                对于之前的变量如果类型发现改变会有一些问题，所以需要固定其变量的数据类型，这种情况下就需要使用到typescript
+            </p>
+            <p>
+                其次是js在官方没有固定的命名空间，而typescript提供了这种方式
+            </p>
+            <p>https://www.jianshu.com/p/d7d59bf3fda6</p>
             <ol>
                 <!--实现超链接锚点-->
                 <li><a>js中常用语法操作</a></li>
@@ -99,6 +129,100 @@
         </div>
     </div>
 
+    <!--js事件冒泡和事件捕获-->
+    <div>
+        <h3>js事件冒泡和事件捕获</h3>
+        <div class="well">
+            <p>
+                事件冒泡Bubbling：button => div2 => div1 => body => document
+                <br>
+                解决方法1：在点击事件的方法中开始使用event.stopPropagation(ie为cancelBubble)开始截断冒泡向上，同时也能阻止事件捕获
+                <br>
+                解决方法2：判断是否当前的绑定事件或者数值，如果是，就执行，不是就退出
+            </p>
+            <p>事件捕获Capturing：document => body => div1 => div2 => button</p>
+            <p>对于事件冒泡和事件捕获的阻止和使用，其实可以通过添加监听事件，在具体的某一个地方进行隔断</p>
+            <p>如果是vue.js或者是react.js中，都有各自自己的阻止api</p>
+            <p>
+                vue.js：@click.stop(阻止冒泡)；@click.prevent(阻止默认事件)
+            </p>
+            <p>
+                但是对于react的阻止冒泡这些就比较有的难度一下了 <br>
+                <a href="https://www.jianshu.com/p/e0894bd588f4">https://www.jianshu.com/p/e0894bd588f4</a>
+                react阻止事件冒泡
+            </p>
+
+        </div>
+    </div>
+
+    <!--js事件委托-->
+    <div>
+        <h3 class="red">js事件委托——算是JS里比较流行的技术了</h3>
+        <div class="well">
+            <p>事件委托原理：它可以让我们添加监听器到父元素上，避免监听每个子元素。</p>
+            <p class="red">
+                第一个好处是效率高，比如，不用for循环为子元素添加事件了 <br>
+                第二个好处是，js新生成的子元素也不用新为其添加事件了，程序逻辑上比较方便 <br>
+            </p>
+            <p>我们用一个简单的需求做比较，让下面的li每个划过的时候变色</p>
+            <div class="marginTop">
+                <ul id="containerCtnList">
+                    <li><a href="#">Item 1</a></li>
+                    <li><a href="#">Item 2</a></li>
+                    <li><a href="#">Item 3</a></li>
+                    <li><a href="#">Item 4</a></li>
+                    <li><a href="#">Item 666</a></li>
+                    <li><a href="#">Item 1000</a></li>
+                </ul>
+            </div>
+            <pre>
+                //如果是普通的做法，就通过for循环获取
+                var oUl = document.getElementById('ul1');
+                 var aLi = oUl.children;
+                 console.log(aLi);
+
+                 //传统方法，li身上添加事件，需要用for循环，找到每个li
+                 for (var i=0;i < aLi.length; i++) {
+                     aLi[i].onmouseover = function() {
+                         this.style.background = 'red';
+                     }
+                     aLi[i].onmouseout = function(){
+                         this.style.background = '';
+                     }
+                 }//for结束
+
+                //但是如果通过事件冒泡把这个给他的父类拿到，然后通过父类去判断，这样就方便了很多
+        let oUl = document.getElementById('containerCtnList');
+        oUl.onmousemove = function (ev) {
+            let oLi = ev.target;
+            //通过nodeName确定获取的是否是a链接，
+            // 为了确保不同浏览器下获取的字母大小写一致，所以使用toLowerCase去设置统一小写
+            if (oLi.nodeName.toLowerCase() === 'li') {
+                oLi.style.background = 'red';
+            }
+        };
+        oUl.onmouseout = function (ev) {
+            let oLi = ev.target;
+            if (oLi.nodeName.toLowerCase() === 'li') {
+                oLi.style.background = '';
+            }
+        };
+
+        //额外科普一下
+        document.getElementById('containerCtnList').addEventListener('click', function (e) {
+            //currentTarget指向的是监听器直接绑定的那个元素，而 target 指向的是我们点击的那个元素。
+            console.log(e.target);
+            console.log(e.currentTarget);
+            //通过nodeName确定获取的是否是a链接，
+            // 为了确保不同浏览器下获取的字母大小写一致，所以使用toLowerCase去设置统一小写
+            if (e.target && e.target.nodeName.toLowerCase() === 'a') {
+                console.log("List item ", e.target.textContent, " was clicked!");
+            }
+        });
+            </pre>
+        </div>
+    </div>
+
     <!--js中常用语法操作-->
     <div>
         <h3>js中常用语法操作</h3>
@@ -144,6 +268,72 @@
             </p>
         </div>
     </div>
+
+    <!--this的问题-->
+    <div>
+        <h3 class="red">this (重点和难点和面试经常问的)</h3>
+        <div class="well">
+            <p class="red">有关this，所得是js中this的指向问题，一般来说，this就是指向当前的，表示当前对象的一个引用</p>
+            <p class="red">但是实际上坑爹的是，尼玛this的实际指向是根据具体情况具体分析的</p>
+            <p class="red">
+                在方法或者函数中，this 表示该方法所属的对象。 (这个)<br>
+                如果单独使用，this 表示全局对象。 <br>
+                在函数中，this 表示全局对象。 <br>
+                在函数中，在严格模式下，this 是未定义的(undefined)。 <br>
+                在事件中，this 表示接收事件的元素。 <br>
+                类似 call()、apply()、bind() 方法可以将 this 引用到任何对象。 (这个)<br>
+                或者可以用最常用的let _this = this，来获取指向 (这个)<br>
+            </p>
+            <pre>
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  id       : 5566,
+  fullName1 : function() {
+    return this.firstName + " " + this.lastName;        //方法中，this 表示该方法(fullName)所属的对象。也就是person
+  },
+  firstNameTest: {
+      firstName: '666',
+      fullName1 : function() {
+          console.log(this.firstName)                   //比如这里的this，指向的是当前对象firstNameTest，所以这里是666
+      }
+  },
+};
+
+var x = this;   //如果单独使用，this 表示全局对象。 在浏览器中，window 就是该全局对象为 [object Window]:
+
+"use strict";
+var x = this;   //严格模式下如果单独使用，this 也是指向全局(Global)对象。
+
+var ax = '666'
+function myFunction() {     //函数方法中(myFunction)，在浏览器中，这个方法明显是属于全局对象为 [object Window]:
+  console.log(this.ax);     //666，这里的this指的是全局
+  console.log(this)         //[object Window]:    //但是如果是严格模式，这里的this就是undefined
+}
+            </pre>
+            <p>具体改变this的案例</p>
+            <pre>
+
+let obj = {
+    name: '上原老师',
+    age: 17,
+    myFun: function (fm, t) {
+        console.log(this.name + '年龄' + this.age + '和' + fm + t);
+    }
+};
+obj.myFun();               //上原老师年龄17
+let db = {
+    name: '波多老师',
+    age: 29
+};
+obj.myFun.call(db);　　　　// 波多老师 29       db是具体指向的对象
+obj.myFun.apply(db);　　　 // 波多老师 29
+obj.myFun.bind(db)();      // 波多老师 29
+obj.myFun.call(db, '大桥老师', 666);   //波多老师年龄29和大桥老师666  //这三个后面都可以附带参数
+            </pre>
+        </div>
+    </div>
+
 
     <!--高阶函数-->
     <div>
@@ -338,7 +528,7 @@ var   generateClosure   =   function()   {
         count   ++;
         return   count;
     };
-    return   get;
+    return   get;                       //这个函数返回了内部定义的函数
 };
 
 var   counter1   =   generateClosure();
@@ -354,6 +544,42 @@ console.log(counter2());   //   输出   2
             generateClosure() 返回 get 函数时，私下将 get 可能引用到的 generateClosure() 函数的内部变量（也就是 count 变量）也返回了，并在内存中生成了一个副本，之后
             generateClosure() 返回的函数的两个实例 counter1和 counter2 就是<span class="red">相互独立</span>的了。</p>
         <a href="https://www.haorooms.com/post/js_bb" target="_blank">https://www.haorooms.com/post/js_bb</a>
+    </div>
+
+    <!--javascript的异步编程-->
+    <div>
+        <h3 class="red">
+            重点：javascript的异步编程
+        </h3>
+        <div>
+            <p>具体的异步详细案例，在es6菜单下会有案例详细讲解</p>
+            <ul class="marginTop">
+                <li class="red">JS 异步编程进化史：callback -> promise -> generator -> async + await</li>
+                <li class="red">async/await 函数的实现，就是将 Generator 函数和自动执行器，包装在一个函数里</li>
+                <li class="red">async/await可以说是异步终极解决方案了</li>
+            </ul>
+            <div>
+                <span class="red">async/await函数相对于Promise，优势体现在：</span>
+                <p>
+                    处理 then 的调用链，能够更清晰准确的写出代码；并且也能优雅地解决回调地狱问题。
+                </p>
+                <p>
+                    当然async/await函数也存在一些缺点，因为 await 将异步代码改造成了同步代码，如果多个异步代码没有依赖性却使用了 await 会导致性能上的降低，代码没有依赖性的话，完全可以使用
+                    Promise.all 的方式
+                </p>
+                <p>
+                    async/await函数对 Generator 函数的改进，体现在以下三点：
+                    内置执行器。
+                    Generator 函数的执行必须靠执行器，所以才有了 co 函数库，而 async 函数自带执行器。也就是说，async 函数的执行，与普通函数一模一样，只要一行。
+                    <br>
+                    更广的适用性。 co 函数库约定，yield 命令后面只能是 Thunk 函数或 Promise 对象，而 async 函数的 await 命令后面，可以跟 Promise
+                    对象和原始类型的值（数值、字符串和布尔值，但这时等同于同步操作）。
+                    <br>
+                    更好的语义。 async 和 await，比起星号和 yield，语义更清楚了。async 表示函数里有异步操作，await 表示紧跟在后面的表达式需要等待结果。
+                </p>
+                <p>https://www.jianshu.com/p/d7f6077a0dd2</p>
+            </div>
+        </div>
     </div>
 </div>
 </body>

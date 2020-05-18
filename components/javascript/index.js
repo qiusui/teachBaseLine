@@ -70,6 +70,33 @@ class Index {
 }
 
 let init = {
+    //测试事件委托
+    testToHim: function () {
+        document.getElementById('containerCtnList').addEventListener('click', function (e) {
+            //指向的是监听器直接绑定的那个元素，而 target 指向的是我们点击的那个元素。
+            console.log(e.target);
+            console.log(e.currentTarget);
+            //通过nodeName确定获取的是否是a链接，
+            // 为了确保不同浏览器下获取的字母大小写一致，所以使用toLowerCase去设置统一小写
+            if (e.target && e.target.nodeName.toLowerCase() === 'a') {
+                console.log("List item ", e.target.textContent, " was clicked!");
+            }
+        });
+        let oUl = document.getElementById('containerCtnList');
+        oUl.onmousemove = function (ev) {
+            let oLi = ev.target;
+            if (oLi.nodeName.toLowerCase() === 'li') {
+                oLi.style.background = 'red';
+            }
+        };
+        oUl.onmouseout = function (ev) {
+            let oLi = ev.target;
+            if (oLi.nodeName.toLowerCase() === 'li') {
+                oLi.style.background = '';
+            }
+        };
+    },
+
     //testAjax
     testAjax: function () {
         ajax({
@@ -126,11 +153,22 @@ let init = {
 
     //闭包测试1
     bibaoTest1: function () {
+        let takeCtn = function () {
+            let thisCtn = 0;
+            let getThisCtn = function () {
+                thisCtn++;
+                return thisCtn
+            };
+            return getThisCtn
+        }
 
     }
 };
 
+
 window.onload = function () {
+    //测试事件委托
+    init.testToHim();
     //testAjax
     init.testAjax();
     //高阶函数

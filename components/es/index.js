@@ -1,3 +1,4 @@
+//隐藏小说
 let book = function () {
     let flage = false;
     document.getElementById('myModal').addEventListener('click', clickCtn);
@@ -78,6 +79,27 @@ let testPromise2 = function () {
     })
 };
 
+//测试class的情况
+class Point {
+    constructor() {
+        this.x  = 6;
+        this.y = 60;
+    }
+}
+
+class ColorPoint extends Point {
+    constructor(x, y) {
+        super(x, y)
+    }
+
+    toString() {
+        console.log(this.x);
+    }
+}
+let ax = new ColorPoint();
+ax.toString();
+
+
 window.onload = function () {
     //书本方法
     this.book();
@@ -94,6 +116,4 @@ window.onload = function () {
     });
     //测试promise中resolve其他promise的情况
     this.testPromise2();
-
-
 };
