@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery semantici ui</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <!--添加对应的semantic-->
+    <link rel="stylesheet" type="text/css" href="../../semantic/dist/semantic.min.css">
+    <script src="../../js/common/common.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="../../semantic/dist/semantic.min.js"></script>
+</head>
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">前端基础学习课件</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../index.html">首页基础知识</a></li>
+                <li><a href="../css/index.html">深入html+css</a></li>
+                <li><a href="../javascript/index.html">js深入</a></li>
+                <li><a href="../structure/index.html">前端数据结构</a></li>
+                <li><a href="../es/index.html">es6基础</a></li>
+                <li><a href="../typescript/index.html">typescript基础</a></li>
+                <li><a href="../echarts/index.html">echarts测试</a></li>
+                <li><a href="../d3Test/index.html">d3.js</a></li>
+                <li class="active"><a href="../d3Test/index.html">jquery semantici ui</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="ui grid container">
+    <div class="row">
+        <div class="column">
+            <h1 class="ui header">Bootstrap Migration</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <h1 class="ui header">讲解以及这个破玩意的坑!</h1>
+                <p>
+                    jquery semantici ui：据说这个东东非常的好用，我感觉和bootstrap其实差不多，作为一个jquery的ui框架而已；
+                    而且这个对移动端有做样式的兼容和适配
+                </p>
+                <p>
+                    安装：<br>
+                    <a href="https://semantic-ui.com/introduction/getting-started.html">官网</a> <br>
+                    根据官网的做法，通过以下方式进行安装 <br>
+                    npm install semantic-ui --save <br>
+                    cd semantic/ <br>
+                    gulp build <br>
+                </p>
+                <p>但是实际上我们按照第一步的时候，发现这个破玩意会卡到一直卡在Creating src/theme.config (less config)
+                    src/theme.config这一步。找到了解决方法，方法就是切换到特定的 NodeJS 版本</p>
+                <ol class="marginTop">
+                    <li>首先按照nvm的node管理工具，然后切换node版本：<a
+                            href="https://github.com/coreybutler/nvm-windows/releases">下载地址</a></li>
+                    <li>
+                        主要：目前发现可以接受的node版本是v10.1.0
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!--类超链接-->
+    <div class="row">
+        <div class="column">
+            <h1 class="ui header">Buttons</h1>
+            <a class="ui button" tabindex="0">
+                Default
+            </a>
+            <a class="ui primary button" tabindex="0">
+                Primary
+            </a>
+            <a class="ui basic button" tabindex="0">
+                Basic
+            </a>
+            <a class="ui positive button" tabindex="0">
+                Success
+            </a>
+            <a class="ui negative button" tabindex="0">
+                Error
+            </a>
+        </div>
+    </div>
+
+    <!--按钮-->
+    <div class="row">
+        <div class="column">
+            <button class="ui button">普通按钮</button>
+            <button class="ui button">One</button>
+            <button class="ui button" tabindex="0">可聚焦</button>
+            <button class="ui toggle button">Vote</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <div class="ui buttons">
+                <button class="ui button">One</button>
+                <button class="ui button">Two</button>
+                <button class="ui button active">Three</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+
+</div>
+</body>
+</html>
