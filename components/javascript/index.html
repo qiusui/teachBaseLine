@@ -3,14 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>javascript</title>
-    <!--index样式-->
-    <link rel="stylesheet" href="../../css/index/index.css">
     <!--bootstarp架构-->
     <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
     <!--对于使用es6写法有多种转义方式，这个是其中一种，性能最差，通过线上文件执行转义，但是适合简单的开发测试应用-->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="../../js/jquery-3.4.1.min.js"></script>
     <script src="../../js/common/common.js"></script>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <style>
+        .test {
+            height: 300px;
+            overflow: auto;
+        }
+        .test::-webkit-scrollbar {
+            width: 10px;
+        }
+        /*测试修改对应滚动条样式*/
+        .test::-webkit-scrollbar-track {
+
+        }
+        .test::-webkit-scrollbar-thumb {
+            border-radius: inherit;
+            background-color: rgba(144,147,153,.3);
+        }
+    </style>
 </head>
 <body>
 <!-- Fixed navbar -->
@@ -35,7 +52,7 @@
 
 <div class="container theme-showcase" role="main">
     <div>
-        <div class="well">
+        <div class="well test">
             <p>
                 js这一块，我不讲基础，主要都是js的总结以及经常适用到东西，需要对js做到总结的应该有，而且针对js的优化，就有了
                 后期我们熟系而且推荐掌握的<span class="red">jquery，es6，typescript</span>
@@ -333,7 +350,6 @@ obj.myFun.call(db, '大桥老师', 666);   //波多老师年龄29和大桥老师
             </pre>
         </div>
     </div>
-
 
     <!--高阶函数-->
     <div>

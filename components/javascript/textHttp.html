@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>testHttp</title>
+
+</head>
+<body>
+<div>
+    <h2>
+        使用原生js写的接口，通过nginx测试跨域问题
+    </h2>
+</div>
+<!--jquery-->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    var params = {"requestParam":{"requestCode":"LD_TL_001","sessionId":null,"merchantNo":"821350859990322","terminalNo":"03800001","serialNum":"342145","marketNo":"003","authCode":null,"operator":null,"version":"2","operateTime":"2020-05-29 21:50:47","vendor":"666","model":"2.1"},"data":{"sign":"Z0d2bnBVRUdQSnY2UHdMNEJGWUMxOEczTEpPb3NJSTI2WHhnU1hudjA4R2NlTndlOG1FcjFnPT0="},"pagingInfo":null};
+    $.ajax({
+        url: 'http://test.51zcm.cc/accp/router?requestCode=LD_TL_001',
+        type: 'post',
+        data: params,
+        success: function (res) {
+            console.log(res);
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript</title>
+    <!--index样式-->
+    <link rel="stylesheet" href="../../css/index/index.css">
+    <!--bootstarp架构-->
+    <link rel="stylesheet" href="../../css/bootstarp/bootstrap.css">
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/common/common.js"></script>
+</head>
+<body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">前端基础学习课件</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../index.html">首页基础知识</a></li>
+                <li><a href="../css/index.html">深入html+css</a></li>
+                <li class="active"><a>js基础</a></li>
+                <li><a href="../javascript/index.html">js深入</a></li>
+                <li><a href="../structure/index.html">前端数据结构</a></li>
+                <li><a href="../es/index.html">es6基础</a></li>
+                <li><a href="../echarts/index.html">echarts测试</a></li>
+                <li><a href="../d3Test/index.html">d3.js</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container theme-showcase" role="main">
+    <div>
+        <h3>
+            js函数：立即执行函数写法
+        </h3>
+        <div class="well">
+            <pre>
+//立即执行函数：后面附带()表示对这个匿名函数的立即调用
+function f() {
+    console.log('函数，但是不会被调用s')
+}
+
+//下面就是立即执行函数的方式
+(function () {
+    console.log('sadfasdf');
+})();
+
+(function (ax) {
+    console.log(ax);
+})(999);
+            </pre>
+        </div>
+    </div>
+
+    <div class="marginTop">
+        <h3>
+            js定义赋值：var 和 let
+        </h3>
+        <div class="well">
+            <p>
+                在js学习的第一课，学习到的就是定义，var是js最基本的定义方式
+            </p>
+            <p>
+                相对于var来说，let多了限制，才会显得更加规范，var和let都是可以用于定义 <span class="red">全局变量以及局部变量</span> <br>
+                不同在于：let没有变量提升，只能作用域中有效，暂时性死区以及不能重复定义
+            </p>
+            <p class="red">
+                JavaScript引擎的工作方式是，先解析代码，获取所有被声明的变量，然后再一行一行的运行，这造成的结果，就是所有的变量的声明语句，都会被提升到代码的头部，这就叫做变量提升
+            </p>
+            <pre>
+                //例如下面代码的执行
+                console.log(aa);        //undefinde，不会报错
+                var aa = 1
+
+                //根据js工作原理相当于这个代码是这样运行的
+                var aa;
+                console.log(aa);
+                aa = 1;     //表示变量a已声明，但还未赋值。但是变量提升只对var命令声明的变量有效，如果一个变量不是var变量声明的，就不会发生变量提升
+            </pre>
+            <p>
+                所以这样的情况下就不是非常的规范，比如正常是结婚啪啪生小孩，变量提升会导致啪啪结婚生小孩(赋值没过去)
+            </p>
+            <pre>
+//不同1：let只能在作用域中有效：更加适合for循环
+{
+    let bx = 6
+    var ax = 6;
+}
+//ax = 6  bx:报错
+
+//不能重复定义
+let ax = 6; let ax = 7; //报错
+
+//没有变量提升
+console.log(ax); let ax = 6;    //报错
+            </pre>
+        </div>
+    </div>
+</div>
+</body>
+<script src="./index.js" type="text/javascript"></script>
+</html>
