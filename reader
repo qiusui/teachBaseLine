@@ -26,3 +26,9 @@ https://qiulianying.github.io/teachBaseLine/index.html
 qiulianying：是用户名
 teachBaseLine：项目名称
 目前在gitHub上已经配置好了，以后使用这种方式可以直接访问静态页面
+
+
+//有关这个文件的快捷服务器启动方式
+1、可以直接使用webstorm中自带的浏览器启动，会自带本地服务
+
+2、可以使用node server
